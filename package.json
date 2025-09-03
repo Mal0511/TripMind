@@ -1,0 +1,22 @@
+{
+  "name": "tripmind",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mal0511/TripMind.git"
+  },
+  "author": "vanlam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mal0511/TripMind/issues"
+  },
+  "homepage": "https://github.com/Mal0511/TripMind#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
