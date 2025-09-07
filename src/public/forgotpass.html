@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot password</title>
+
+    <link rel="stylesheet" href="interface.css">
+</head>
+<body>
+    
+    <div class="container">
+        <div class="container-forms">
+            <div class="container-info">
+                <div class="Goback">
+                    <p>Go to log in?</p>
+                    <button class="btn" onclick="Login_signup(event)">Log in</button>
+                </div>
+            </div>
+            
+        </div>
+        <div class="container-form">
+            <form class="form-item forgot-pass" action="">
+                <h1>Forgot password</h1>
+                <input type="email" id="ForgotEmail" name="Email" placeholder="Email">
+                <input id="ForgotFullname" name="Fullname" placeholder="Full name" type="text">
+                <div id="ForgotMessage"></div>
+                <div id="password"></div>
+                <div id="username"></div>
+                <Button class="btn" onclick="getpass(event)"  type="button">Get Password</Button>
+            </form>
+        </div>
+    </div>
+    <script src="login.js"></script>
+</body>
+</html>
