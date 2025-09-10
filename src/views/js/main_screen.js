@@ -59,11 +59,11 @@ function changeSlide() {
 
 setInterval(changeSlide, 5000);
 changeSlide();
- if (!localStorage.getItem('isLoggedIn')) {
-    window.location.href = 'login.html';
- }
+/* if (!localStorage.getItem('isLoggedIn')) {
+    window.location.href = 'login.ejs';
+ }*/
 document.querySelectorAll('.consultant-btn').forEach(function(button){
     button.addEventListener('click', function(){
-        window.location.href = 'partner.html';
+        window.location.href = 'partner.ejs';
     });
 });

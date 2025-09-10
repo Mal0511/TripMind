@@ -86,7 +86,7 @@ function login(event){
 
 function forgotpass(event){
     event.preventDefault();
-    window.location.href='forgotpass.html'
+    window.location.href='forgotpass.ejs'
 }
 function getpass(event){
     event.preventDefault();
@@ -111,13 +111,13 @@ function getpass(event){
 }
 function Login_signup(event){
     event.preventDefault();
-    window.location.href='login.html'
+    window.location.href='login.ejs'
 }
 function logout() {
     // Xóa thông tin đăng nhập trong localStorage
     localStorage.removeItem('isLoggedIn');
     // Chuyển hướng về trang login
-    window.location.href = 'login.html';
+    window.location.href = 'login.ejs';
 }
 
 // Hàm xóa tài khoản (Delete Account)
@@ -150,7 +150,7 @@ function removeuser(event) {
 
         // Xóa thông tin đăng nhập và chuyển hướng về trang login
         localStorage.removeItem('isLoggedIn');
-        window.location.href = 'login.html';  // Chuyển hướng về trang đăng nhập
+        window.location.href = 'login.ejs';  // Chuyển hướng về trang đăng nhập
 
         alert("Account deleted successfully.");
     } else {
