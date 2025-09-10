@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Login / Singup </title>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="interface.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="container-forms">
+            <div class="container-info">
+                <div class="info-item">
+                    <p>Have an account?</p>
+                    <button class="btn">Log in</button>
+                </div>
+                <div class="info-item">
+                    <p>Don't have an account?</p>
+                    <button class="btn">Sign up</button>
+                </div>
+            </div>
+
+            <div class="container-form">
+                <form class="form-item log-in" action="">
+                    <h1>Login</h1>
+                    <input id="LoginUsername" name="Username" placeholder="User name" type="text">
+                    <input id="LoginPassword" name="Password" placeholder="Password" type="password">
+                    <div id="LoginMessage"></div>
+                    <button class="btn" type="submit" onclick="login(event)">Login</button>
+                    <button class="btn1" onclick="forgotpass(event)">Forgot Password</button>
+                </form>
+
+                <form class="form-item sign-up" action="">
+                    <h1>Sign up</h1>
+                    <input type="email" id="regEmail" placeholder="Email" name="Email">
+                    <input type="text" id="regFullname" name="Fullname" placeholder="Full name">
+                    <input type="text" id="regUsername" name="Username" placeholder="User name">
+                    <input type="password" name="Password" placeholder="Password" id="regPassword">
+                    <div id="regMessage"></div>
+                    <button class="btn" type="submit" onclick="register(event)">Sign up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+
+</html>

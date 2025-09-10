@@ -1,0 +1,153 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  height: 100vh;
+  background: #000 center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  transition: background-image 1s ease-in-out;
+}
+
+.hero-content {
+  background: rgba(0, 0, 0, 0.4); 
+  padding: 40px;
+  border-radius: 8px;
+  position: absolute;
+  top: 0; 
+  left: 0;
+  width: 100%;
+  height: 100%; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;     
+  color: white;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1s ease forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.hero h1, .hero p {
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-hidden {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero button {
+  padding: 12px 30px;
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hero button:hover {
+  background: white;
+  color: black;
+}
+
+/* Navigation */
+.navbar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.navbar ul li {
+  display: inline;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.navbar ul li a:hover {
+  color: CornflowerBlue;
+}
+
+.logo {
+  position: absolute;
+  left: 30px;
+  bottom: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: CornflowerBlue;
+}
+
+.consultant-btn {
+  position: absolute;
+  right: 30px;
+  bottom: 15px;
+  border: 1px solid black;
+  padding: 8px 16px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.consultant-btn:hover {
+  background: black;
+  color: white;
+}

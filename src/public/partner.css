@@ -1,0 +1,158 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f2f2f2;
+}
+
+header {
+  background: #b3e5f7;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.top-bar .logo {
+  height: 45px;
+  margin-right: 10px;
+}
+
+.top-bar h1 {
+  font-size: 20px;
+  color: #004080;
+}
+
+.top-icons button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  margin-left: 12px;
+  cursor: pointer;
+  color: #004080;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  background: #a4d8f0;
+}
+
+.menu a {
+  padding: 12px 18px;
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.menu a i {
+  font-size: 18px;
+  color: #004080;
+}
+
+.menu a:hover {
+  background: #87c7e6;
+  border-radius: 6px;
+}
+
+main {
+  display: flex;
+  margin-left: 220px; /* slidebarcodinh */
+  min-height: calc(100vh - 110px);
+}
+
+.sidebar {
+  background: #d1efff;
+  width: 220px;
+  padding: 20px 10px;
+  position: fixed;        /* codinhslidebar */
+  top: 110px;             
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;       /* cuonnoidungneudaislidebarvancodinh*/
+}
+
+.sidebar ul {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.sidebar ul li {
+  padding: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar ul li i {
+  font-size: 18px;
+  color: #004080;
+}
+
+.sidebar ul li:hover {
+  background: #b3e5f7;
+  border-radius: 4px;
+}
+
+.back-btn {
+  text-align: center;
+  padding: 12px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.back-btn i {
+  color: #004080;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border-left: 1px solid #ccc;
+}
+
+.cover {
+  width: 60%;
+  height: 60%;
+  border: 2px dashed #87c7e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9f9f9;
+}
+
+.add-cover-btn {
+  background: none;
+  border: 2px dashed #87c7e6;
+  padding: 20px 40px;
+  font-size: 16px;
+  color: #555;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.add-cover-btn:hover {
+  background: #e6f7ff;
+  color: #004080;
+}
