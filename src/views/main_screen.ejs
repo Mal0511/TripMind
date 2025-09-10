@@ -28,11 +28,16 @@
                 <li><a href="#">USER</a></li>
                 <li><a href="#">SETTINGS</a></li>
             </ul>
-            <button class="consultant-btn">CONSULTANT</button>
+            <button class="consultant-btn">CONTACT US</button>
         </div>
     </section>
 
     <!-- Script slider -->
+     <script>
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'login.html';
+        }
+     </script>
     <script src="main_screen.js"></script>
 </body>
 

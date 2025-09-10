@@ -62,3 +62,8 @@ changeSlide();
  if (!localStorage.getItem('isLoggedIn')) {
     window.location.href = 'login.html';
  }
+document.querySelectorAll('.consultant-btn').forEach(function(button){
+    button.addEventListener('click', function(){
+        window.location.href = 'partner.html';
+    });
+});
