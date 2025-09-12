@@ -23,12 +23,14 @@
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "mongoo": "^0.3.5",
-    "mongoose": "^8.18.0"
+    "mongoose": "^8.18.0",
+    "sequelize": "^6.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.28.4",
     "@babel/node": "^7.28.0",
     "@babel/preset-env": "^7.28.3",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "sequelize-cli": "^6.2.0"
   }
 }
