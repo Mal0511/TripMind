@@ -9,10 +9,22 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'User',   // tên bảng bạn muốn tham chiếu
+          key: 'id'            // cột id trong bảng User
+        },
+        onUpdate: 'CASCADE',   // nếu id User thay đổi thì update theo
+        onDelete: 'CASCADE'    // nếu User bị xóa thì booking cũng bị xóa
       },
       tripId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Trip',   // tên bảng bạn muốn tham chiếu
+          key: 'id'            // cột id trong bảng Trip
+        },
+        onUpdate: 'CASCADE',   // nếu id Trip thay đổi thì update theo
+        onDelete: 'CASCADE'    // nếu Trip bị xóa thì booking cũng bị xóa
       },
       status: {
         type: Sequelize.STRING

@@ -9,7 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       partnerId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Partner',   // tên bảng bạn muốn tham chiếu
+          key: 'id'            // cột id trong bảng Partners
+        },
+        onUpdate: 'CASCADE',   // nếu id Partner thay đổi thì update theo
+        onDelete: 'CASCADE'    // nếu Partner bị xóa thì Trips cũng bị xóa
       },
       title: {
         type: Sequelize.STRING
