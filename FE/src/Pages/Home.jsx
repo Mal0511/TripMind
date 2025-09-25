@@ -1,6 +1,24 @@
 import DestinationCard from "../Components/DestinationCard";
+import { useEffect, useState } from "react";
+
 
 export default function Home() {
+  const [trips, setTrips] = useState([]);
+
+   useEffect(() => {
+    fetch("http://localhost:1150/api/trip", { credentials: "include" })
+      .then(res => {
+        if (res.status === 401) {
+          window.location.href = "http://localhost:1150/";
+        }
+        return res.json();
+      })
+      .then(data => setTrips(data))
+      .catch(err => console.error(err));
+  }, []);
+
+
+
   const destinations = [
     {
       image: "/public/assets/P1.jpg",

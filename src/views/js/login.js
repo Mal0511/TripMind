@@ -76,7 +76,7 @@ async function login(event) {
         
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('token', result.token); 
-        window.location.href = '/main_screen'; // route do server render
+        window.location.href = 'http://localhost:5173/'; // route do server render
     } else {
         loginMessage.innerText = result.message || 'Login failed';
         loginMessage.style.color = 'red';

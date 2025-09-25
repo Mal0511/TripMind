@@ -14,6 +14,7 @@ let getLoginController = async (req, res) => {
 
     req.session.userId = user.id; 
     res.json({ message: 'Login successful' });
+    
     } catch (error) {
         res.status(500).json({ message : error.message});
     }
