@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
   
@@ -65,14 +65,13 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Bottom Menu */}
       <div className="flex justify-center py-3 space-x-12 text-sm font-semibold tracking-wide text-white bg-blue-600">
-        <Link to="/" className="hover:text-gray-200">HOME</Link>
-        <Link to="/plan" className="hover:text-gray-200">PLAN</Link>
-        <Link to="/place-weather" className="hover:text-gray-200">PLACE & WEATHER</Link>
-        <Link to="/booking" className="hover:text-gray-200">BOOKING</Link>
-        <Link to="/user" className="hover:text-gray-200">USER</Link>
-        <Link to="/setting" className="hover:text-gray-200">SETTING</Link>
+        <NavLink to="/" className={({ isActive }) => isActive ? "text-yellow-300" : "hover:text-gray-200"}>HOME</NavLink>
+        <NavLink to="/plan" className={({ isActive }) => isActive ? "text-yellow-300" : "hover:text-gray-200"}>PLAN</NavLink>
+        <NavLink to="/place-weather" className={({ isActive }) => isActive ? "text-yellow-300" : "hover:text-gray-200"}>PLACE & WEATHER</NavLink>
+        <NavLink to="/booking" className={({ isActive }) => isActive ? "text-yellow-300" : "hover:text-gray-200"}>BOOKING</NavLink>
+        <NavLink to="/user" className={({ isActive }) => isActive ? "text-yellow-300" : "hover:text-gray-200"}>USER</NavLink>
+        <NavLink to="/setting" className={({ isActive }) => isActive ? "text-yellow-300" : "hover:text-gray-200"}>SETTING</NavLink>
       </div>
     </div>
   );

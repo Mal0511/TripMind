@@ -18,7 +18,7 @@ export default function Footer() {
             <p className="flex items-center space-x-2">
               <i className="fas fa-envelope"></i> <span>Email :</span>
             </p>
-          </div>
+          </div>        
         </div>
 
         {/* Social */}
