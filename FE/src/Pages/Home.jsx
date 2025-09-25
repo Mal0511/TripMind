@@ -8,7 +8,7 @@ const Home = () => {
     fetch("http://localhost:1105/api/trip") // API backend
       .then((res) => {
         if (res.status === 401) {
-          window.location.href = "http://localhost:1150/"; // redirect login
+          window.location.href = "http://localhost:1105/"; // redirect login
         }
         return res.json();
       })
