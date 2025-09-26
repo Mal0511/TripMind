@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { apiFetch } from "../config/api";
 import ItineraryCard from "../Components/ItineraryCard";
 
 export default function ItineraryPage() {
@@ -6,9 +7,9 @@ export default function ItineraryPage() {
   const [dayFilter, setDayFilter] = useState("Tất cả");
   const [itineraries, setItineraries] = useState([]);
 
-  // Fetch trips từ API
+  
   useEffect(() => {
-  fetch("http://localhost:1105/api/trip")
+  apiFetch("api/trip")
     .then(res => res.json())
     .then(data => {
       const mapped = data.map(trip => ({

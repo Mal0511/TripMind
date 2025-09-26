@@ -1,3 +1,4 @@
+import { apiFetch } from "../config/api";
 export default function Setting() {
   return (
     <div className="py-10 text-center">

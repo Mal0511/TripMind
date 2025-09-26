@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }));
 app.use(express.static(path.join(__dirname, 'src/public')));
 app.use(cors({
-  origin: true,
+  origin: process.env.FE_URL,
   credentials: true
 }));
 

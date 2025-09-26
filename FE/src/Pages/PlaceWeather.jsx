@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import WeatherCard from "../Components/WeatherCard";
-
+import { apiFetch } from "../config/api";
 export default function WeatherPage() {
   const [weatherData, setWeatherData] = useState([]);
 
