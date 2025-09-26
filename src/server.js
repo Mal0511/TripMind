@@ -7,6 +7,7 @@ import initApiRoutes from "./route/api";
 import connectDB from "./config/connectDB";
 import cors from "cors";
 require("dotenv").config();
+
 const path = require('path');
 let app = express();
 //config app
@@ -24,7 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }));
 app.use(express.static(path.join(__dirname, 'src/public')));
 app.use(cors({
-  origin: process.env.FE_URL,
+  origin: "http://localhost:5173",
   credentials: true
 }));
 

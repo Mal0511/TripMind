@@ -1,17 +1,16 @@
 import DestinationCard from "../Components/DestinationCard";
-import { apiFetch } from "../config/api";
 import { useEffect, useState } from "react";
 
 const Home = () => {
   const [destinations, setDestinations] = useState([]);
 
-  useEffect(() => {
-    apiFetch("/api/trip") // API backend
-      .then((data) => setDestinations(data.slice(0, 3)))
-      .catch((err) => {
-        console.error(err);
-         window.location.href = import.meta.env.VITE_FE_URL + "/";
-      });
+  useEffect(() => { fetch("https://ninety-tigers-dig.loca.lt/api/trip") // API backend 
+    .then((res) => { 
+      if (res.status === 401) { 
+        window.location.href = "https://ninety-tigers-dig.loca.lt/"; // redirect login 
+      } return res.json(); }) 
+    .then((data) => setDestinations(data.slice(0,3))) 
+    .catch((err) => console.error(err)); 
   }, []);
 
   return (

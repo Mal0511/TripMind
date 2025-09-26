@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { apiFetch } from "../config/api";
 export default function User() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -8,7 +7,7 @@ export default function User() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await apiFetch("api/user", {
+        const res = await fetch("http://localhost:1105/api/user", {
         credentials: "include" 
       }); 
         if (!res.ok) throw new Error("Failed to fetch user");
