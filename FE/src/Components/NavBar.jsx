@@ -53,15 +53,7 @@ export default function Navbar() {
             </span>
           </div>
 
-          {/* Admin */}
-          <div className="flex items-center space-x-2 transition cursor-pointer hover:text-blue-600">
-            <img
-              src="https://via.placeholder.com/32"
-              alt="avatar"
-              className="border rounded-full w-9 h-9"
-            />
-            <span className="font-medium">Admin ▼</span>
-          </div>
+         
         </div>
       </div>
 

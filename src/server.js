@@ -23,7 +23,10 @@ app.use(session({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }));
 app.use(express.static(path.join(__dirname, 'src/public')));
-app.use(cors());
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 
 viewEngine(app);
 initWebRoutes(app);

@@ -7,7 +7,7 @@ let getLoginPage = (req, res) => {
 let getLoginController = async (req, res) => {
     try {
         const {username, password} = req.body;
-        const user = await User.findOne({ where: { username } });
+        const user = await User.findOne({ where: { userName: username } });
         if (!user || user.password !== password) {
             return res.status(401).json({ message: 'Invalid username or password' });
         }
@@ -23,12 +23,19 @@ let getLoginController = async (req, res) => {
 
 let getRegisterController = async (req, res) => {
     try {
-        const { fullname, username, password, email, phone } = req.body;
-        const existUser = await User.findOne({ where: { username } }); 
+        const { fullname: fullName, username: userName, password, email, phone } = req.body;
+        const existUser = await User.findOne({ where: { userName } }); 
         if (existUser) {
             return res.status(400).json({ message: 'Username already exists' });
         }
-        const user = await User.create({ fullname, username, password, email, phone });
+
+        const user = await User.create({ 
+            fullName, 
+            userName, 
+            password, 
+            email, 
+            phone
+        });
         res.status(201).json({ message: 'Registration successful', user });
     } catch (error) {
         res.status(500).json({ message: error.message });

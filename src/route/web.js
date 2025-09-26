@@ -1,7 +1,6 @@
 import express from "express";
-import homeControler from "../controllers/homeController";
 import LoginController from "../controllers/LoginController";
-import getAllTrips from "../controllers/TripController";
+
 
 
 let router = express.Router();

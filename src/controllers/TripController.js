@@ -1,4 +1,3 @@
-// src/controllers/TripController.js
 import db from "../models/index.js";
 
 const Trip = db.Trip;
