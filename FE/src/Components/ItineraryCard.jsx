@@ -1,4 +1,4 @@
-export default function ItineraryCard({ image, days, title, location, time, author, avatar }) {
+export default function ItineraryCard({ image, days, title, location, time, price }) {
   return (
     <div className="overflow-hidden transition duration-300 bg-white shadow-md rounded-xl hover:shadow-xl">
       {/* Image */}
@@ -14,15 +14,7 @@ export default function ItineraryCard({ image, days, title, location, time, auth
         <h3 className="font-bold text-gray-800">{title}</h3>
         <p className="text-gray-600">📍 {location}</p>
         <p className="text-gray-600">🗓 {time}</p>
-
-        <div className="flex items-center pt-2 space-x-2">
-          <img
-            src={avatar}
-            alt={author}
-            className="object-cover rounded-full w-7 h-7"
-          />
-          <span className="text-gray-700">{author}</span>
-        </div>
+        <p className="text-gray-600">💰 Price: {price}$</p>
       </div>
     </div>
   );

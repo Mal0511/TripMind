@@ -12,14 +12,15 @@ async function register(event) {
     let password = document.getElementById('regPassword').value.trim();
     let email = document.getElementById('regEmail').value.trim();
     let fullname = document.getElementById('regFullname').value.trim();
+    let phone = document.getElementById('regPhone').value.trim();
     let regMessage = document.getElementById('regMessage');
 
     let lowerCaseLetter = /[a-z]/g;
     let upperCaseLetter = /[A-Z]/g;
     let numbers = /[0-9]/g;
 
-    if (!username || !password || !email || !fullname) {
-        regMessage.innerText = "PLease fill in all fields";
+    if (!username || !password || !email || !fullname || !phone) { 
+        regMessage.innerText = "Please fill in all fields";
         regMessage.style.color = 'red';
         return;
     }
@@ -49,7 +50,7 @@ async function register(event) {
     let response = await fetch('/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, email, fullname })
+        body: JSON.stringify({ username, password, email, fullname, phone })
     });
 
     let result = await response.json();

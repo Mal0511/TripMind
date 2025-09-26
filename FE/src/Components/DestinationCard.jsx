@@ -5,11 +5,11 @@ export default function DestinationCard({ image, title, price, days }) {
 
       <div className="p-4 space-y-2">
         <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-        <p className="text-gray-600">{price}</p>
+        <p className="text-gray-600">💰 Price:{price}$</p>
 
         <div className="flex items-center space-x-2 text-sm text-gray-500">
           <i className="text-blue-500 fas fa-map-marker-alt"></i>
-          <span>{days}</span>
+          <span>Days: {days}</span>
         </div>
       </div>
     </div>

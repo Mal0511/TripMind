@@ -7,7 +7,7 @@ import initApiRoutes from "./route/api";
 import connectDB from "./config/connectDB";
 import cors from "cors";
 require("dotenv").config();
-
+const path = require('path');
 let app = express();
 //config app
 
@@ -21,7 +21,8 @@ app.use(session({
 }));
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended : true }))
+app.use(bodyParser.urlencoded({ extended : true }));
+app.use(express.static(path.join(__dirname, 'src/public')));
 app.use(cors());
 
 viewEngine(app);

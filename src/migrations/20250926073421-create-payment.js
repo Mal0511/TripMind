@@ -9,13 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       bookingId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Booking',   // tên bảng bạn muốn tham chiếu
-          key: 'id'            // cột id trong bảng Booking
-        },
-        onUpdate: 'CASCADE',   // nếu id Booking thay đổi thì update theo
-        onDelete: 'CASCADE'    // nếu Booking bị xóa thì Payment cũng bị xóa
+        type: Sequelize.INTEGER
       },
       amount: {
         type: Sequelize.DECIMAL

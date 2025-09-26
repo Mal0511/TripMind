@@ -1,82 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ItineraryCard from "../Components/ItineraryCard";
 
 export default function ItineraryPage() {
   const [countryFilter, setCountryFilter] = useState("Tất cả");
   const [dayFilter, setDayFilter] = useState("Tất cả");
+  const [itineraries, setItineraries] = useState([]);
 
- const itineraries = [
-  {
-    image: "/assets/P1.jpg",
-    days: 3,
-    title: "Bà Rịa Vũng Tàu 3 ngày 2 đêm",
-    location: "Việt Nam – Vũng Tàu",
-    time: "01/08/2025 – 03/08/2025",
-    author: "Quang Vinh",
-    avatar: "/assets/avatar1.jpg",
-    country: "Việt Nam",
-  },
-  {
-    image: "/assets/P1.jpg",
-    days: 2,
-    title: "Sa Pa 2 ngày 1 đêm",
-    location: "Việt Nam – Sa Pa",
-    time: "02/09/2025 – 03/09/2025",
-    author: "Loan Loan",
-    avatar: "/assets/avatar2.jpg",
-    country: "Việt Nam",
-  },
-  {
-    image: "/assets/P1.jpg",
-    days: 4,
-    title: "Kuala Lumpur 4 ngày 3 đêm",
-    location: "Malaysia – Kuala Lumpur",
-    time: "04/08/2025 – 07/08/2025",
-    author: "Minh Hà",
-    avatar: "/assets/avatar3.jpg",
-    country: "Malaysia",
-  },
-  {
-    image: "/assets/P1.jpg",
-    days: 5,
-    title: "Đà Lạt 5 ngày 4 đêm",
-    location: "Việt Nam – Đà Lạt",
-    time: "10/07/2025 – 14/07/2025",
-    author: "Duy Tân",
-    avatar: "/assets/avatar4.jpg",
-    country: "Việt Nam",
-  },
-  {
-    image: "/assets/P1.jpg",
-    days: 1,
-    title: "Khám phá Hà Nội",
-    location: "Việt Nam – Hà Nội",
-    time: "15/08/2025",
-    author: "Thu Phương",
-    avatar: "/assets/avatar5.jpg",
-    country: "Việt Nam",
-  },
-  {
-    image: "/assets/P1.jpg",
-    days: 7,
-    title: "Switzerland Alps Tour",
-    location: "Thụy Sĩ – Bern",
-    time: "20/08/2025 – 26/08/2025",
-    author: "Ngọc Anh",
-    avatar: "/assets/avatar6.jpg",
-    country: "Thụy Sĩ",
-  },
-  {
-    image: "/assets/P1.jpg",
-    days: 8,
-    title: "Tokyo & Kyoto Adventure",
-    location: "Nhật Bản – Tokyo",
-    time: "01/09/2025 – 08/09/2025",
-    author: "Kenji",
-    avatar: "/assets/avatar7.jpg",
-    country: "Nhật Bản",
-  },
-];
+  // Fetch trips từ API
+  useEffect(() => {
+  fetch("http://localhost:1105/api/trip")
+    .then(res => res.json())
+    .then(data => {
+      const mapped = data.map(trip => ({
+        image: trip.image,
+        days: trip.days,
+        title: trip.title,
+        location: `${trip.country} – ${trip.city}`,
+        time:
+          trip.start_date && trip.end_date
+            ? `${new Date(trip.start_date).toLocaleDateString()} – ${new Date(trip.end_date).toLocaleDateString()}`
+            : new Date(trip.start_date).toLocaleDateString(),
+        country: trip.country === "Vietnam" ? "Việt Nam" : trip.country,
+        price: trip.price
+      }));
+      setItineraries(mapped);
+    })
+    .catch(err => console.error(err));
+}, []);
 
 
   // Filter logic

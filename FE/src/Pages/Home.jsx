@@ -12,7 +12,7 @@ const Home = () => {
         }
         return res.json();
       })
-      .then((data) => setDestinations(data))
+      .then((data) => setDestinations(data.slice(0,3)))
       .catch((err) => console.error(err));
   }, []);
 
