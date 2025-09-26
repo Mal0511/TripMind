@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exc babel-node src/server.js"
+    "start": "concurrently \"npm run start:be\" \"npm run dev:fe\"",
+    "start:be": "nodemon --exec babel-node src/server.js",
+    "dev:fe": "cd FE && npm run dev"
   },
   "repository": {
     "type": "git",
@@ -19,8 +21,22 @@
   "description": "",
   "dependencies": {
     "axios": "^1.11.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "express-session": "^1.18.2",
     "mongoo": "^0.3.5",
-    "mongoose": "^8.18.0"
+    "mongoose": "^8.18.0",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.6.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.4",
+    "@babel/node": "^7.28.0",
+    "@babel/preset-env": "^7.28.3",
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.10",
+    "sequelize-cli": "^6.2.0"
   }
 }
