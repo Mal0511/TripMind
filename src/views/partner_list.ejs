@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Partner Management</title>
+    <link rel="stylesheet" href="/interface.css" />
+    <link rel="stylesheet" href="/partner_management.css" />
+    <style></style>
+  </head>
+  <body>
+    <!-- Trang quản lý đối tác -->
+    <div class="container">
+      <h1>Partner Management</h1>
+      <div style="display: flex; align-items: center; margin-bottom: 20px">
+        <!-- Nút thêm đối tác và form tìm kiếm -->
+        <button onclick="showAddPartnerForm()" class="btn-add">
+          Add Partner
+        </button>
+        <form
+          method="get"
+          action="/partner-list"
+          style="
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 0;
+            margin-left: auto;
+          "
+        >
+          <input
+            type="text"
+            name="search"
+            placeholder="Search by name, ID, phone number, email, address, etc."
+            value="<%= search || '' %>"
+            style="
+              padding: 10px;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              width: 250px;
+            "
+          />
+          <button
+            type="submit"
+            style="
+              padding: 12px 16px;
+              border-radius: 4px;
+              background: #007bff;
+              color: #fff;
+              border: none;
+              cursor: pointer;
+            "
+          >
+            Search
+          </button>
+        </form>
+      </div>
+
+      <div id="addPartnerForm" style="display: none">
+        <!-- Form thêm/sửa đối tác -->
+        <form>
+          <!-- Company Name -->
+          <div class="form-group">
+            <label for="companyName">Company Name</label>
+            <input
+              type="text"
+              id="companyName"
+              placeholder="Nhập tên công ty"
+              required
+            />
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Nhập email" required />
+          </div>
+
+          <!-- Phone -->
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input
+              type="text"
+              id="phone"
+              placeholder="Nhập số điện thoại"
+              required
+            />
+          </div>
+
+          <!-- Address -->
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input
+              type="text"
+              id="address"
+              placeholder="Nhập địa chỉ"
+              required
+            />
+          </div>
+
+          <!-- Service Type -->
+          <div class="form-group">
+            <label for="serviceType">Service Type</label>
+            <select id="serviceType">
+              <option value="Hotel">Hotel</option>
+              <option value="Restaurant">Restaurant</option>
+              <option value="Transport">Transport</option>
+              <option value="Attraction">Attraction</option>
+            </select>
+          </div>
+
+          <!-- Status -->
+          <div class="form-group">
+            <label for="status">Status</label>
+            <select id="status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+              <option value="Pending">Pending</option>
+            </select>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group" style="grid-column: span 2">
+            <label for="description">Description</label>
+            <textarea
+              id="description"
+              placeholder="Nhập mô tả về dịch vụ"
+            ></textarea>
+          </div>
+          <!-- Rating -->
+          <div class="form-group" id="rating-group" style="display: none">
+            <label for="rating">Rating</label>
+            <input
+              type="number"
+              id="rating"
+              min="0"
+              max="5"
+              step="0.01"
+              placeholder="Nhập điểm đánh giá (0-5)"
+            />
+          </div>
+
+          <!-- Password đã bị loại bỏ vì chỉ quản lý thông tin đối tác -->
+
+          <!-- Buttons -->
+          <div class="form-actions">
+            <button type="button" onclick="savePartner()" class="btn-save">
+              Save
+            </button>
+            <button
+              type="button"
+              onclick="hideAddPartnerForm()"
+              class="btn-cancel"
+            >
+              Hủy
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Bảng danh sách đối tác -->
+      <table>
+        <!-- Tiêu đề bảng -->
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Company Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Service Type</th>
+            <th>Status</th>
+            <th>Rating</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <!-- Danh sách đối tác và nút thao tác -->
+        <tbody>
+          <% if (partners && partners.length > 0) { %> <%
+          partners.forEach(function(partner) { %>
+          <tr>
+            <td><%= partner.id %></td>
+            <td><%= partner.companyName %></td>
+            <td><%= partner.email %></td>
+            <td><%= partner.phone %></td>
+            <td><%= partner.address %></td>
+            <td class="service-<%= partner.serviceType %>">
+              <%= partner.serviceType %>
+            </td>
+
+            <td class="status-<%= partner.status.trim().toLowerCase() %>">
+              <%= partner.status %>
+            </td>
+
+            <td>⭐ <%= partner.rating || '0.00' %></td>
+            <td>
+              <button
+                onclick="deletePartner('<%= partner.id %>')"
+                class="btn-delete"
+              >
+                Delete
+              </button>
+              <button
+                onclick="editPartnerAndSave(this, '<%= partner.id %>')"
+                class="btn-edit"
+              >
+                Edit
+              </button>
+            </td>
+          </tr>
+          <% }); %> <% } else { %>
+          <tr>
+            <td colspan="9" style="text-align: center">
+              Không có đối tác nào.
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+
+    <script src="/js/partner_list.js"></script>
+  </body>
+</html>

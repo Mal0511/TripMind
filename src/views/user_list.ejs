@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Management</title>
+    <link rel="stylesheet" href="/interface.css" />
+    <!-- Chỉ giữ lại các file css cần thiết -->
+    <link rel="stylesheet" href="/user_management.css" />
+  </head>
+  <body>
+    <!-- Trang quản lý người dùng -->
+    <div class="container">
+      <h1>User Management</h1>
+      <div class="user-header-bar">
+        <!-- Nút thêm người dùng và form tìm kiếm -->
+        <button onclick="showAddUserForm()" class="btn-add-user">
+          Add user
+        </button>
+        <form method="get" action="/user-list" class="user-search-form">
+          <input
+            type="text"
+            name="search"
+            placeholder="Search  ..."
+            value="<%= search || '' %>"
+            class="user-search-input"
+          />
+          <button type="submit" class="btn-search">Search</button>
+        </form>
+      </div>
+      <div id="addUserForm" style="display: none">
+        <!-- Form thêm/sửa người dùng -->
+        <form>
+          <!-- Username -->
+          <div class="form-group">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              id="username"
+              placeholder="Nhập tên người dùng"
+              required
+              class="form-input"
+            />
+          </div>
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Nhập email"
+              required
+              class="form-input"
+            />
+          </div>
+          <!-- Phone -->
+          <div class="form-group">
+            <label for="phone" class="form-label">Phone</label>
+            <input
+              type="text"
+              id="phone"
+              placeholder="Nhập số điện thoại"
+              required
+              class="form-input"
+            />
+          </div>
+          <!-- Status -->
+          <div class="form-group">
+            <label for="status" class="form-label">Status</label>
+            <select id="status" class="form-input">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+          <!-- User Role -->
+          <div class="form-group">
+            <label for="userrole" class="form-label">User Role</label>
+            <select id="userrole" class="form-input">
+              <option value="Staff_support">Staff_support</option>
+              <option value="Basic">Basic</option>
+              <option value="Premium">Premium</option>
+              <option value="Partner">Partner</option>
+            </select>
+          </div>
+          <!-- Password -->
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Nhập mật khẩu"
+              required
+              class="form-input"
+            />
+          </div>
+          <!-- Buttons -->
+          <div class="form-actions">
+            <button type="button" onclick="saveUser()" class="btn-save">
+              Save
+            </button>
+            <button
+              type="button"
+              onclick="hideAddUserForm()"
+              class="btn-cancel"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- Bảng danh sách người dùng -->
+      <table>
+        <!-- Tiêu đề bảng -->
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Status</th>
+            <th>User Role</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <!-- Danh sách người dùng và nút thao tác -->
+        <tbody>
+          <% if (users && users.length > 0) { users.forEach(user => { %>
+          <tr>
+            <td><%= user.id %></td>
+            <td><%= user.username %></td>
+            <td><%= user.email %></td>
+            <td><%= user.phone %></td>
+            <td
+              class="<%= user.status.trim().toLowerCase() === 'active' ? 'status-active' : 'status-inactive' %>"
+            >
+              <%= user.status %>
+            </td>
+            <td class="userrole-<%= user.userrole.trim().toLowerCase() %>">
+              <%= user.userrole %>
+            </td>
+
+            <td>
+              <button onclick="deleteUser('<%= user.id %>')" class="btn-delete">
+                Delete
+              </button>
+              <button
+                onclick="editUserAndSave(this, '<%= user.id %>')"
+                class="btn-edit"
+              >
+                Edit
+              </button>
+            </td>
+          </tr>
+          <% }); } else { %>
+          <tr>
+            <td colspan="7" style="text-align: center">
+              Không có người dùng nào.
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+    <script src="/js/user_list.js"></script>
+  </body>
+</html>
