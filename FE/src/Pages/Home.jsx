@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 const Home = () => {
   const [destinations, setDestinations] = useState([]);
 
-  useEffect(() => { fetch("https://ninety-tigers-dig.loca.lt/api/trip") // API backend 
+  useEffect(() => { fetch("http://localhost:1105/api/trip") // API backend 
     .then((res) => { 
       if (res.status === 401) { 
-        window.location.href = "https://ninety-tigers-dig.loca.lt/"; // redirect login 
+        window.location.href = "http://localhost:1105/"; // redirect login 
       } return res.json(); }) 
     .then((data) => setDestinations(data.slice(0,3))) 
     .catch((err) => console.error(err)); 
