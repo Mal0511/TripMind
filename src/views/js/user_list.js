@@ -109,24 +109,29 @@ async function editUserAndSave(button, userId) {
 /**
  * Xóa người dùng theo ID sau khi xác nhận.
  */
-function deleteUser(userId) {
-  if (confirm("Bạn có chắc chắn muốn xóa người dùng này không?")) {
-    fetch("/user/delete", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId }),
+function deleteUser(button, userId) {
+  if (!confirm("Bạn có chắc chắn muốn xóa người dùng này không?")) return;
+  fetch("/user/delete", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    credentials: "same-origin",
+    body: JSON.stringify({ userId }),
+  })
+    .then((res) => {
+      if (res.ok) return res.json();
+      return res.json().then((d) => Promise.reject(d));
     })
-      .then((res) => {
-        if (res.ok) {
-          alert("Xóa người dùng thành công!");
-          location.reload();
-        } else {
-          alert("Xóa người dùng thất bại!");
-        }
-      })
-      .catch((err) => {
-        console.error("Lỗi:", err);
-        alert("Có lỗi xảy ra.");
-      });
-  }
+    .then((data) => {
+      alert("Xóa người dùng thành công!");
+      // Xóa row khỏi DOM ngay lập tức
+      const row = document.getElementById(`user-${userId}`);
+      if (row) row.remove();
+    })
+    .catch((err) => {
+      console.error("Lỗi:", err);
+      alert(err.message || "Có lỗi xảy ra.");
+    });
 }

@@ -125,7 +125,7 @@
         <!-- Danh sách người dùng và nút thao tác -->
         <tbody>
           <% if (users && users.length > 0) { users.forEach(user => { %>
-          <tr>
+          <tr id="user-<%= user.id %>">
             <td><%= user.id %></td>
             <td><%= user.username %></td>
             <td><%= user.email %></td>
@@ -140,7 +140,10 @@
             </td>
 
             <td>
-              <button onclick="deleteUser('<%= user.id %>')" class="btn-delete">
+              <button
+                onclick="deleteUser(this, '<%= user.id %>')"
+                class="btn-delete"
+              >
                 Delete
               </button>
               <button
