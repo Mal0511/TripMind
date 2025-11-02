@@ -1,0 +1,107 @@
+/* CSS chuyển từ user_list.ejs sang user_management.css */
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: #f4f4f4;
+  font-family: "Roboto", sans-serif;
+}
+
+.container {
+  margin-top: 0;
+  margin-bottom: 20px;
+  width: 100vw;
+  max-width: none;
+  height: auto;
+  background: #fff;
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  overflow-y: auto;
+  position: relative; /* Đảm bảo form không bị tụt */
+  top: 0; /* Căn chỉnh form sát mép trên */
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+  color: rgb(36, 46, 227);
+}
+
+table {
+  width: 100%; /* Điều chỉnh bảng để vừa với khung */
+  border-collapse: collapse; /* Loại bỏ khoảng cách giữa các ô */
+  margin-top: 20px; /* Tạo khoảng cách phía trên bảng */
+}
+
+th,
+td {
+  padding: 10px; /* Điều chỉnh khoảng cách trong ô cho đẹp hơn */
+  text-align: left; /* Căn trái nội dung trong ô */
+  border-bottom: 1px solid #ddd; /* Đường viền dưới nhẹ để phân cách các hàng */
+}
+
+th {
+  background-color: #007bff; /* Màu nền xanh cho tiêu đề bảng */
+  color: white; /* Màu chữ trắng cho tiêu đề bảng */
+}
+
+tr:hover {
+  background-color: #f1f1f1; /* Đổi màu nền khi rê chuột qua hàng */
+}
+
+.status-active {
+  color: green;
+  font-weight: bold;
+}
+
+.status-inactive {
+  color: red;
+  font-weight: bold;
+}
+.userrole-staff_support {
+  color: #8a2be2;
+  font-weight: bold;
+}
+.userrole-basic {
+  color: #808080;
+  font-weight: bold;
+}
+.userrole-premium {
+  color: #ecd44d;
+  font-weight: bold;
+}
+.userrole-partner {
+  color: #ff8c00;
+  font-weight: bold;
+}
+
+#addUserForm {
+  display: block;
+  margin-bottom: 20px;
+  position: fixed; /* Giữ form cố định */
+  top: 10%; /* Căn chỉnh form cách mép trên 10% */
+  left: 50%; /* Căn giữa form theo chiều ngang */
+  transform: translate(-50%, -10%); /* Dịch chuyển để căn giữa */
+  z-index: 1000; /* Đảm bảo form luôn ở trên cùng */
+}
+
+#addUserForm form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  background: #f9f9f9;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.container {
+  overflow: auto;
+}

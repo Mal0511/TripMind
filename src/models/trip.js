@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+
       Trip.belongsTo(models.Partner, { foreignKey: 'partnerId' });
       Trip.hasMany(models.Booking, { foreignKey: 'tripId' });
     }
@@ -20,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       }
       return null;
+
     }
   };
   Trip.init({

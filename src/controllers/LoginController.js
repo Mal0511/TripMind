@@ -1,10 +1,12 @@
-import db from '../models/index';
-const User = db.User;
+import db from "../models/index";
+import bcrypt from "bcrypt";
 
-let getLoginPage = (req, res) => {
-    return res.render("login");
-}
+const User = db.User;
+const Admin = db.Admin;
+
+let getLoginPage = (req, res) => res.render("login");
 let getLoginController = async (req, res) => {
+
     try {
         const {username, password} = req.body;
         const user = await User.findOne({ where: { userName: username } });
@@ -17,8 +19,19 @@ let getLoginController = async (req, res) => {
     
     } catch (error) {
         res.status(500).json({ message : error.message});
+
     }
-}
+  }
+
+
+    // Kiểm tra trong bảng Admins
+    let admin = await Admin.findOne({ where: { username } });
+    if (admin && admin.password === password) {
+      req.session.userId = admin.id;
+      req.session.userType = "admin";
+      return res.json({ message: "Login successful", userType: "admin" });
+    }  return res.status(401).json({ message: "Invalid username or password" });
+  
 
 
 let getRegisterController = async (req, res) => {
@@ -43,21 +56,24 @@ let getRegisterController = async (req, res) => {
 };
 
 
-let getPasswordController = () => {
 
-}
-let getLogoutController = () => {
+  
 
-}
-let getDeleteUserController = () => {
-
-}
-
+let getPasswordController = () => {};
+let getLogoutController = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Lỗi khi đăng xuất:", err);
+      return res.status(500).json({ message: "Lỗi khi đăng xuất" });
+    }
+    res.clearCookie("connect.sid"); // Xóa session cookie
+    res.json({ message: "Đăng xuất thành công" });
+  });
+};
+// ...existing code...
 module.exports = {
-    getLoginPage : getLoginPage,
-    getLoginController : getLoginController,
-    getRegisterController : getRegisterController,
-    getPasswordController : getPasswordController,
-    getLogoutController : getLogoutController,
-    getDeleteUserController : getDeleteUserController
-}
+  getLoginPage: getLoginPage,
+  getLoginController: getLoginController,
+  getPasswordController: getPasswordController,
+  getLogoutController: getLogoutController,
+};
