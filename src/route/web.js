@@ -1,5 +1,6 @@
-const express = require("express");
-const homeControler = require("../controllers/homeController");
+
+import express from "express";
+import LoginController from "../controllers/LoginController";
 const LoginController = require("../controllers/LoginController");
 // User-related handlers are implemented in LoginController in this repo
 const {
@@ -14,6 +15,11 @@ const PartnerController = require("../controllers/PartnerController");
 const UserController = require("../controllers/UserController");
 const { requireAdmin } = require("../middleware/auth");
 
+
+
+
+
+
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -26,6 +32,7 @@ let initWebRoutes = (app) => {
   // API: get user by id (admin only) - dùng khi frontend cần dữ liệu để edit
   router.get("/user/:id", requireAdmin, UserController.getUserById);
 
+//Nam
   // Test route
   router.get("/test", (req, res) => {
     res.send("Test route is working!");
@@ -67,4 +74,11 @@ let initWebRoutes = (app) => {
 
   return app.use("/", router);
 };
+module.exports = initWebRoutes;
+
+    router.get("/", LoginController.getLoginPage);
+    router.post("/auth/login", LoginController.getLoginController);
+    router.post("/auth/register", LoginController.getRegisterController);
+    return app.use("/", router);
+
 module.exports = initWebRoutes;

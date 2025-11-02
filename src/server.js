@@ -1,13 +1,17 @@
 import express from "express";
 import session from "express-session";
 import bodyParser from "body-parser";
-import viewEngine from "./config/viewEngine.js";
-import initWebRoutes from "./route/web.js";
-import connectDB from "./config/connectDB.js";
-import dotenv from "dotenv";
 
-dotenv.config();
 
+import viewEngine from "./config/viewEngine";
+import initWebRoutes from "./route/web";
+import initApiRoutes from "./route/api";
+import connectDB from "./config/connectDB";
+import cors from "cors";
+require("dotenv").config();
+
+
+const path = require('path');
 let app = express();
 //config app
 
@@ -21,10 +25,19 @@ app.use(
 );
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
+
+app.use(bodyParser.urlencoded({ extended : true }));
+app.use(express.static(path.join(__dirname, 'src/public')));
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+
 
 viewEngine(app);
 initWebRoutes(app);
+initApiRoutes(app);
 
 connectDB();
 
