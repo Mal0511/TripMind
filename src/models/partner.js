@@ -12,8 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Partner.hasMany(models.Trip, { foreignKey: "partnerId" });
-      Partner.hasMany(models.Booking, { foreignKey: "partnerId" });
+     
     }
   }
   // Khai báo các cột trong bảng Partner
