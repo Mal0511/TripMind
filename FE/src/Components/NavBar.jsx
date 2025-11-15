@@ -1,7 +1,16 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../Context/AuthContext";
 
 export default function Navbar() {
-  
+  const { currentUser, logout } = useAuth(); 
+  const navigate = useNavigate();
+
+  // Hàm xử lý khi nhấn nút logout
+  const handleLogout = () => {
+    logout(); // Gọi hàm logout từ context
+    navigate("/"); // Điều hướng về trang chủ
+  };
+
   return (
     <div className="shadow-md">
       {/* Top Header */}
@@ -53,10 +62,39 @@ export default function Navbar() {
             </span>
           </div>
 
-         
+          {/* User Area */}
+          {currentUser ? (
+            // --- NẾU ĐÃ ĐĂNG NHẬP ---
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 transition cursor-pointer hover:text-blue-600">
+                <img
+                  src="https://via.placeholder.com/32"
+                  alt="avatar"
+                  className="border rounded-full w-9 h-9"
+                />
+                <span className="font-medium">{currentUser.name || 'User'} ▼</span>
+              </div>
+              {/* NÚT LOGOUT */}
+              <button
+                onClick={handleLogout}
+                className="px-3 py-1 text-sm font-medium text-red-600 transition border border-red-500 rounded-lg hover:bg-red-50"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            // --- NẾU CHƯA ĐĂNG NHẬP ---
+            <NavLink 
+              to="/login" 
+              className="px-4 py-2 font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+            >
+              Sign In
+            </NavLink>
+          )}
         </div>
       </div>
 
+      {/* Bottom Menu */}
       <div className="flex justify-center py-3 space-x-12 text-sm font-semibold tracking-wide text-white bg-blue-600">
         <NavLink to="/" className={({ isActive }) => isActive ? "text-yellow-300" : "hover:text-gray-200"}>HOME</NavLink>
         <NavLink to="/plan" className={({ isActive }) => isActive ? "text-yellow-300" : "hover:text-gray-200"}>PLAN</NavLink>

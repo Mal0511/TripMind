@@ -9,6 +9,8 @@ import Booking from "./Pages/Booking";
 import User from "./Pages/User";
 import Setting from "./Pages/Setting";
 import NotFound from "./Pages/NotFound"; 
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
             <Route path="/booking" element={<Booking />} />
             <Route path="/user" element={<User />} />
             <Route path="/setting" element={<Setting />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />h
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
