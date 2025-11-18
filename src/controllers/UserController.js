@@ -1,6 +1,6 @@
 
 const db = require("../models/index");
-
+const User = db.User;
 // Hiển thị danh sách người dùng (và tìm kiếm nếu có)
 exports.getUserList = async (req, res) => {
   try {
@@ -90,32 +90,33 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-import db from '../models/index.js';
 
-const User = db.User;
 
-let getUser = async (req, res) => {
-    console.log("SESSION:", req.session);
+
+
+
+
+exports.getUser = async (req, res) => {
+  console.log("SESSION:", req.session);
+  
+  console.log("UserId:", req.session?.userId);
    try {
-        if (!req.session.userId) {
+        if (!req.session || !req.session.userId) {
             return res.status(401).json({ message: 'Not logged in' });
         }
 
         const user = await User.findByPk(req.session.userId, {
             attributes: ['id', 'fullName', 'userName', 'email', 'phone'] 
         });
-
+        console.log("FOUND USER:", user);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
         res.json(user);
     } catch (error) {
+      console.error("DB ERROR:", error);
         res.status(500).json({ message: error.message });
     }
-}
-
-export default {
-    getUser : getUser,
 }
 

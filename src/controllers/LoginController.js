@@ -25,12 +25,12 @@ let getLoginController = async (req, res) => {
 
 
     // Kiểm tra trong bảng Admins
-    let admin = await Admin.findOne({ where: { username } });
+    /*let admin = await Admin.findOne({ where: { username } });
     if (admin && admin.password === password) {
       req.session.userId = admin.id;
       req.session.userType = "admin";
       return res.json({ message: "Login successful", userType: "admin" });
-    }  return res.status(401).json({ message: "Invalid username or password" });
+    }  return res.status(401).json({ message: "Invalid username or password" });*/
   
 
 
@@ -76,4 +76,5 @@ module.exports = {
   getLoginController: getLoginController,
   getPasswordController: getPasswordController,
   getLogoutController: getLogoutController,
+  getRegisterController: getRegisterController,
 };

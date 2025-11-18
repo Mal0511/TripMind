@@ -9,8 +9,12 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       tripId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       status: {
         type: Sequelize.STRING,

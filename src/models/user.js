@@ -22,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
+    tableName: 'Users', // khớp với DB migration
+    timestamps: true 
   });
 
   return User;

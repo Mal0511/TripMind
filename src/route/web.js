@@ -1,7 +1,8 @@
 
 import express from "express";
 import LoginController from "../controllers/LoginController";
-const LoginController = require("../controllers/LoginController");
+import homeController from "../controllers/homeController";
+
 // User-related handlers are implemented in LoginController in this repo
 const {
   deleteUserController,
@@ -26,7 +27,7 @@ let initWebRoutes = (app) => {
   router.get("/", LoginController.getLoginPage);
   router.post("/auth/login", LoginController.getLoginController);
   router.post("/auth/logout", LoginController.getLogoutController);
-  router.get("/main_screen", homeControler.getHomePage);
+  router.get("/main_screen", homeController.getHomePage);
   // Route danh sách người dùng (chỉ admin)
   router.get("/user-list", requireAdmin, UserController.getUserList);
   // API: get user by id (admin only) - dùng khi frontend cần dữ liệu để edit
@@ -71,14 +72,12 @@ let initWebRoutes = (app) => {
     requireAdmin,
     PartnerController.updatePartnerStatus
   );
-
-  return app.use("/", router);
-};
-module.exports = initWebRoutes;
-
-    router.get("/", LoginController.getLoginPage);
+  router.get("/", LoginController.getLoginPage);
     router.post("/auth/login", LoginController.getLoginController);
     router.post("/auth/register", LoginController.getRegisterController);
-    return app.use("/", router);
+    router.get("/api/user", UserController.getUser);
+  return app.use("/", router);
+};
+export default initWebRoutes;
 
-module.exports = initWebRoutes;
+
