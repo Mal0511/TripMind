@@ -5,15 +5,20 @@ dotenv.config();
 
 // Option 3: Passing parameters separately (other dialects)
 const sequelize = new Sequelize(
+    
     process.env.DB_NAME || 'trip_db', 
     process.env.DB_USER || 'root', 
-    process.env.DB_PASS || null, 
+    process.env.DB_PASS || "Lelam1234%", 
     {
         host: process.env.DB_HOST || 'localhost',
-        port: process.env.DB_PORT || 3306,
+        port: Number(process.env.DB_PORT) || 3306,
         dialect: 'mysql'
     }
 );
+console.log("DB_USER:", process.env.DB_USER);
+console.log("DB_PASS:", process.env.DB_PASS);
+console.log("DB_HOST:", process.env.DB_HOST);
+console.log("DB_PORT:", process.env.DB_PORT);
 
 let connectDB = async () => {
     try {

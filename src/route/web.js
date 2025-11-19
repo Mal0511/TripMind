@@ -2,7 +2,7 @@
 import express from "express";
 import LoginController from "../controllers/LoginController";
 import homeController from "../controllers/homeController";
-
+import BookingController from "../controllers/BookingController";
 // User-related handlers are implemented in LoginController in this repo
 const {
   deleteUserController,
@@ -76,6 +76,7 @@ let initWebRoutes = (app) => {
     router.post("/auth/login", LoginController.getLoginController);
     router.post("/auth/register", LoginController.getRegisterController);
     router.get("/api/user", UserController.getUser);
+    router.get("/api/booking", BookingController.getAllBookings);
   return app.use("/", router);
 };
 export default initWebRoutes;
