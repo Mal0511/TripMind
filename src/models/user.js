@@ -1,5 +1,7 @@
-"use strict";
-const { Model } = require("sequelize");
+'use strict';
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -18,13 +20,12 @@ module.exports = (sequelize, DataTypes) => {
     userName: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
+    status: DataTypes.STRING,
+    role: DataTypes.STRING,
     phone: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'User',
-    tableName: 'Users', // khớp với DB migration
-    timestamps: true 
   });
-
   return User;
 };
