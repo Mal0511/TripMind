@@ -1,14 +1,16 @@
+// src/config/viewEngine.js
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+const configViewEngine = (app) => {
+  app.use(express.static(path.join(__dirname, "..", "public")));
+  app.use("/js", express.static(path.join(__dirname, "..", "views", "js")));
+  app.set("view engine", "ejs");
+  app.set("views", path.join(__dirname, "..", "views"));
+};
 
-let configViewEngine = (app) => {
-    app.use(express.static("./src/public"));
-    app.use("/js", express.static("./src/views/js"));
-    app.set("view engine", "ejs");
-    app.set("views", "./src/views");
-}
-module.exports = configViewEngine;
-
-
-
+export default configViewEngine;

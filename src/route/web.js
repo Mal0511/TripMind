@@ -1,15 +1,19 @@
 import express from "express";
-import LoginController from "../controllers/LoginController";
 
+import {
+  getLoginPage,
+  getLoginController,
+  getRegisterController,
+} from "../controllers/LoginController.js";
 
+const router = express.Router();
 
-let router = express.Router();
+const initWebRoutes = (app) => {
+  router.get("/", getLoginPage);
+  router.post("/auth/login", getLoginController);
+  router.post("/auth/register", getRegisterController);
 
-let initWebRoutes = (app) => {
+  return app.use("/", router);
+};
 
-    router.get("/", LoginController.getLoginPage);
-    router.post("/auth/login", LoginController.getLoginController);
-    router.post("/auth/register", LoginController.getRegisterController);
-    return app.use("/", router);
-}
-module.exports = initWebRoutes;
+export default initWebRoutes;
