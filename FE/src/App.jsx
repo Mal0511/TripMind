@@ -8,7 +8,7 @@ import PlaceWeather from "./Pages/PlaceWeather";
 import Booking from "./Pages/Booking";
 import User from "./Pages/User";
 import Setting from "./Pages/Setting";
-import NotFound from "./Pages/NotFound"; 
+import NotFound from "./Pages/NotFound";
 import Schedule from "./Pages/Schedule";
 
 function App() {

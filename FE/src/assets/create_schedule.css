@@ -18,8 +18,9 @@ body {
 }
 
 /* ensure sidebar and main stretch equally and the main content can scroll */
-.container { align-items: stretch; }
-
+.container {
+  align-items: stretch;
+}
 
 /* Sidebar */
 .sidebar {
@@ -30,10 +31,10 @@ body {
   overflow-y: auto;
 }
 .sidebar h1 {
-    font-size: 28px;
-    color: #2980b9;
-    margin-bottom: 20px;
-    }
+  font-size: 28px;
+  color: #2980b9;
+  margin-bottom: 20px;
+}
 .sidebar h2 {
   color: #2980b9;
   margin-bottom: 20px;
@@ -116,34 +117,99 @@ h1 {
 }
 
 /* Detail panel content formatting */
-.detail-content { padding: 12px; }
-.detail-content .detail-block { margin-bottom: 12px; }
-.detail-content .detail-block h3 { margin: 0 0 8px 0; font-size: 18px; }
-.detail-content .detail-block p { margin: 6px 0; }
-.detail-content .location-list { list-style: none; padding: 0; margin: 6px 0; }
-.detail-content .location-list .location-item { padding: 8px; border-bottom: 1px dashed #eee; }
-.detail-content .location-list .location-item strong { display:block; }
+.detail-content {
+  padding: 12px;
+}
+.detail-content .detail-block {
+  margin-bottom: 12px;
+}
+.detail-content .detail-block h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+}
+.detail-content .detail-block p {
+  margin: 6px 0;
+}
+.detail-content .location-list {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0;
+}
+.detail-content .location-list .location-item {
+  padding: 8px;
+  border-bottom: 1px dashed #eee;
+}
+.detail-content .location-list .location-item strong {
+  display: block;
+}
 
 /* Grid layout for detail panel fields */
-.detail-content .detail-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 8px 16px; align-items: start; }
-.detail-content .detail-grid .detail-row { display: contents; }
-.detail-content .detail-grid .label { font-weight: 500; color: #555; font-size: 14px; padding-top: 6px; }
-.detail-content .detail-grid .value { color: #2c3e50; font-size: 14px; padding-top: 6px; }
+.detail-content .detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 8px 16px;
+  align-items: start;
+}
+.detail-content .detail-grid .detail-row {
+  display: contents;
+}
+.detail-content .detail-grid .label {
+  font-weight: 500;
+  color: #555;
+  font-size: 14px;
+  padding-top: 6px;
+}
+.detail-content .detail-grid .value {
+  color: #2c3e50;
+  font-size: 14px;
+  padding-top: 6px;
+}
 
-.detail-content .detail-title { font-size: 20px; margin: 0 0 8px 0; font-weight: 800; }
+.detail-content .detail-title {
+  font-size: 20px;
+  margin: 0 0 8px 0;
+  font-weight: 800;
+}
 
 /* locations list vertical style */
-.detail-content .locations-vertical { list-style: none; padding: 0; margin: 8px 0 0 0; }
-.detail-content .locations-vertical li { padding: 10px 8px; border: 1px solid #eef2f7; border-radius: 6px; margin-bottom: 8px; background:#fff; }
-.detail-content .locations-vertical li div { margin: 2px 0; }
-.detail-content .locations-vertical li strong { display:block; font-weight:700; }
+.detail-content .locations-vertical {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+}
+.detail-content .locations-vertical li {
+  padding: 10px 8px;
+  border: 1px solid #eef2f7;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background: #fff;
+}
+.detail-content .locations-vertical li div {
+  margin: 2px 0;
+}
+.detail-content .locations-vertical li strong {
+  display: block;
+  font-weight: 700;
+}
 
 /* Make location name and metadata in detail match main form typography */
-.detail-content .locations-vertical li strong { color: #2c3e50; font-size: 14px; }
-.detail-content .locations-vertical li small, .detail-content .locations-vertical li .meta { color: #6b7280; font-size: 13px; }
+.detail-content .locations-vertical li strong {
+  color: #2c3e50;
+  font-size: 14px;
+}
+.detail-content .locations-vertical li small,
+.detail-content .locations-vertical li .meta {
+  color: #6b7280;
+  font-size: 13px;
+}
 
 /* Align detail field values to look like inputs */
-.detail-content .value { background: #fff; padding: 6px 8px; border-radius: 4px; border: 1px solid transparent; }
+.detail-content .value {
+  background: #fff;
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
 
 h2 {
   color: #34495e;
@@ -160,8 +226,14 @@ section {
 }
 
 /* make the main form take available vertical space so it aligns with sidebar */
-.trip-info { flex: 1; display: flex; flex-direction: column; }
-.trip-info .form-actions { margin-top: auto; }
+.trip-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.trip-info .form-actions {
+  margin-top: auto;
+}
 
 .form-group {
   margin-bottom: 15px;
@@ -357,7 +429,8 @@ input:focus {
   margin-bottom: 12px;
 }
 
-.add-location input[type="date"], .add-location input[type="time"] {
+.add-location input[type="date"],
+.add-location input[type="time"] {
   width: 150px;
 }
 
@@ -460,7 +533,6 @@ input:focus {
 
 .detail-panel.hidden {
   display: none;
-  
 }
 
 .detail-header {
@@ -491,15 +563,24 @@ input:focus {
 }
 
 /* Overrides and small additions */
-.hidden { display: none !important; }
+.hidden {
+  display: none !important;
+}
 
 /* Make main title slightly smaller */
-h1 { font-size: 22px; }
+h1 {
+  font-size: 22px;
+}
 
 /* Border for location name input */
-.add-location input#location-name { border: 1px solid #d5e3f0; padding: 8px 10px; border-radius: 6px; }
+.add-location input#location-name {
+  border: 1px solid #d5e3f0;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
 /* Ensure date/time inputs in the add-location row also show borders like other inputs */
-.add-location input[type="date"], .add-location input[type="time"] {
+.add-location input[type="date"],
+.add-location input[type="time"] {
   border: 1px solid #d5e3f0;
   padding: 6px 8px;
   border-radius: 6px;
@@ -507,7 +588,9 @@ h1 { font-size: 22px; }
 }
 
 /* Ensure any input in the add-location row shows a visible border */
-.add-location input, .add-location select, .add-location textarea {
+.add-location input,
+.add-location select,
+.add-location textarea {
   border: 1px solid #d5e3f0;
   padding: 6px 8px;
   border-radius: 6px;
@@ -515,5 +598,6 @@ h1 { font-size: 22px; }
 }
 
 /* Rounded corners for time inputs */
-.time-input-wrapper input { border-radius: 6px; }
-
+.time-input-wrapper input {
+  border-radius: 6px;
+}
