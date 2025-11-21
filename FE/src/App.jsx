@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/NavBar";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
@@ -10,10 +10,9 @@ import User from "./Pages/User";
 import Setting from "./Pages/Setting";
 import NotFound from "./Pages/NotFound"; 
 
-
 function App() {
   return (
-    
+    <Router>
       <div className="min-h-screen">
         <Header></Header>
         <Navbar />
@@ -30,7 +29,7 @@ function App() {
         </div>
         <Footer></Footer>
       </div>
-    
+    </Router>
   );
 }
 

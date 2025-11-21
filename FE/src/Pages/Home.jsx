@@ -7,8 +7,7 @@ const Home = () => {
   useEffect(() => { fetch("http://localhost:1105/api/trip") // API backend 
     .then((res) => { 
       if (res.status === 401) { 
-        navigate("/login");
-        return; // redirect login 
+        window.location.href = "http://localhost:1105/"; // redirect login 
       } return res.json(); }) 
     .then((data) => setDestinations(data.slice(0,3))) 
     .catch((err) => console.error(err)); 
