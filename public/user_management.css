@@ -80,10 +80,9 @@ tr:hover {
   font-weight: bold;
 }
 
-
 #addUserForm {
-  display: block; 
-margin-bottom: 20px;
+  display: block;
+  margin-bottom: 20px;
   position: fixed; /* Giữ form cố định */
   top: 10%; /* Căn chỉnh form cách mép trên 10% */
   left: 50%; /* Căn giữa form theo chiều ngang */
