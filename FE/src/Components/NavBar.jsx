@@ -60,6 +60,7 @@ export default function Navbar() {
       <div className="flex justify-center py-3 space-x-12 text-sm font-semibold tracking-wide text-white bg-blue-600">
         <NavLink to="/" className={({ isActive }) => isActive ? "text-yellow-300" : "hover:text-gray-200"}>HOME</NavLink>
         <NavLink to="/plan" className={({ isActive }) => isActive ? "text-yellow-300" : "hover:text-gray-200"}>PLAN</NavLink>
+        <NavLink to="/schedule" className={({ isActive }) => isActive ? "text-yellow-300" : "hover:text-gray-200"}>SCHEDULE</NavLink>
         <NavLink to="/place-weather" className={({ isActive }) => isActive ? "text-yellow-300" : "hover:text-gray-200"}>PLACE & WEATHER</NavLink>
         <NavLink to="/booking" className={({ isActive }) => isActive ? "text-yellow-300" : "hover:text-gray-200"}>BOOKING</NavLink>
         <NavLink to="/user" className={({ isActive }) => isActive ? "text-yellow-300" : "hover:text-gray-200"}>USER</NavLink>

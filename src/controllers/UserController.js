@@ -8,6 +8,7 @@ exports.getUserList = async (req, res) => {
     const where = search
       ? {
           [Op.or]: [
+            { id: isNaN(Number(search)) ? -1 : Number(search) },
             { username: { [Op.like]: `%${search}%` } },
             { email: { [Op.like]: `%${search}%` } },
           ],
@@ -26,6 +27,23 @@ exports.addUser = async (req, res) => {
   try {
     const { fullName, username, email, phone, status, role, password } =
       req.body;
+      const duplicate = await User.findOne({
+        where: {
+          [Op.or]: [{ username }, { email }, { phone }],
+        },
+      });
+      if (duplicate) {
+        let msg = "";
+        if (duplicate.username === username)
+          msg += "Tên người dùng đã được sử dụng. ";
+        if (duplicate.email === email) msg += "Email đã được sử dụng. ";
+        if (duplicate.phone === phone) msg += "Số điện thoại đã được sử dụng. ";
+        return res
+          .status(400)
+          .json({
+            message: msg.trim() || "Thông tin đã bị trùng. Vui lòng nhập lại.",
+          });
+      }
     await db.User.create({
       fullName,
       username,
@@ -102,7 +120,7 @@ exports.getUser = async (req, res) => {
         }
 
         const user = await User.findByPk(req.session.userId, {
-            attributes: ['id', 'fullName', 'userName', 'email', 'phone'] 
+            attributes: ['id', 'fullName', 'username', 'email', 'phone'] 
         });
         console.log("FOUND USER:", user);
         if (!user) {

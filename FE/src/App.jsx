@@ -9,6 +9,7 @@ import Booking from "./Pages/Booking";
 import User from "./Pages/User";
 import Setting from "./Pages/Setting";
 import NotFound from "./Pages/NotFound"; 
+import Schedule from "./Pages/Schedule";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/plan" element={<Plan />} />
+            <Route path="/schedule" element={<Schedule />} />
             <Route path="/place-weather" element={<PlaceWeather />} />
             <Route path="/booking" element={<Booking />} />
             <Route path="/user" element={<User />} />

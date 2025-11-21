@@ -1,0 +1,519 @@
+/* create_schedule.css - copied into FE/src/assets for SPA usage */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f4f8;
+  color: #2c3e50;
+  line-height: 1.6;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ensure sidebar and main stretch equally and the main content can scroll */
+.container { align-items: stretch; }
+
+
+/* Sidebar */
+.sidebar {
+  width: 280px;
+  background: white;
+  border-right: 1px solid #e0e7ef;
+  padding: 20px;
+  overflow-y: auto;
+}
+.sidebar h1 {
+    font-size: 28px;
+    color: #2980b9;
+    margin-bottom: 20px;
+    }
+.sidebar h2 {
+  color: #2980b9;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.sidebar h3 {
+  color: #2980b9;
+  margin-bottom: 15px;
+  font-size: 18px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #3498db;
+}
+
+.saved-list {
+  list-style: none;
+}
+
+.saved-item {
+  padding: 12px;
+  margin-bottom: 8px;
+  background: #f8fbfd;
+  border: 1px solid #d5e3f0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.saved-item:hover {
+  background: #e8f4f8;
+  border-color: #3498db;
+  transform: translateX(3px);
+}
+
+.saved-item.active {
+  background: #3498db;
+  color: white;
+  border-color: #2980b9;
+}
+
+.saved-item-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.saved-item-date {
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+.saved-item.active .saved-item-date {
+  color: #ecf0f1;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: auto;
+}
+
+h1 {
+  color: #206ebc;
+  margin-bottom: 16px;
+  font-size: 22px;
+  font-weight: bold 700;
+}
+
+/* smaller, left-aligned main title in the content area */
+.main-content > h1 {
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+/* Detail panel content formatting */
+.detail-content { padding: 12px; }
+.detail-content .detail-block { margin-bottom: 12px; }
+.detail-content .detail-block h3 { margin: 0 0 8px 0; font-size: 18px; }
+.detail-content .detail-block p { margin: 6px 0; }
+.detail-content .location-list { list-style: none; padding: 0; margin: 6px 0; }
+.detail-content .location-list .location-item { padding: 8px; border-bottom: 1px dashed #eee; }
+.detail-content .location-list .location-item strong { display:block; }
+
+/* Grid layout for detail panel fields */
+.detail-content .detail-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 8px 16px; align-items: start; }
+.detail-content .detail-grid .detail-row { display: contents; }
+.detail-content .detail-grid .label { font-weight: 500; color: #555; font-size: 14px; padding-top: 6px; }
+.detail-content .detail-grid .value { color: #2c3e50; font-size: 14px; padding-top: 6px; }
+
+.detail-content .detail-title { font-size: 20px; margin: 0 0 8px 0; font-weight: 800; }
+
+/* locations list vertical style */
+.detail-content .locations-vertical { list-style: none; padding: 0; margin: 8px 0 0 0; }
+.detail-content .locations-vertical li { padding: 10px 8px; border: 1px solid #eef2f7; border-radius: 6px; margin-bottom: 8px; background:#fff; }
+.detail-content .locations-vertical li div { margin: 2px 0; }
+.detail-content .locations-vertical li strong { display:block; font-weight:700; }
+
+/* Make location name and metadata in detail match main form typography */
+.detail-content .locations-vertical li strong { color: #2c3e50; font-size: 14px; }
+.detail-content .locations-vertical li small, .detail-content .locations-vertical li .meta { color: #6b7280; font-size: 13px; }
+
+/* Align detail field values to look like inputs */
+.detail-content .value { background: #fff; padding: 6px 8px; border-radius: 4px; border: 1px solid transparent; }
+
+h2 {
+  color: #34495e;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+section {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* make the main form take available vertical space so it aligns with sidebar */
+.trip-info { flex: 1; display: flex; flex-direction: column; }
+.trip-info .form-actions { margin-top: auto; }
+
+.form-group {
+  margin-bottom: 15px;
+  flex: 1;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  color: #555;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.required {
+  color: #e74c3c;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="time"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d5e3f0;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.datetime-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.time-input-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.time-buttons {
+  display: flex;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.time-buttons .btn-small {
+  flex: 1;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+  background: #3498db;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2980b9;
+}
+
+.btn-secondary {
+  background: #95a5a6;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #7f8c8d;
+}
+
+.btn-danger {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c0392b;
+}
+
+.btn-edit {
+  background: #f39c12;
+  color: white;
+}
+
+.btn-edit:hover {
+  background: #d68910;
+}
+
+.btn-add {
+  background: #27ae60;
+  color: white;
+}
+
+.btn-add:hover {
+  background: #229954;
+}
+
+.btn-success {
+  background: #27ae60;
+  color: white;
+}
+
+.btn-success:hover {
+  background: #229954;
+}
+
+.messages {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  display: none;
+}
+
+.messages.show {
+  display: block;
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+}
+
+.messages.error {
+  background: #fadbd8;
+  color: #c0392b;
+  border: 1px solid #e74c3c;
+}
+
+.messages.success {
+  background: #d5f4e6;
+  color: #27ae60;
+  border: 1px solid #52c41a;
+}
+
+/* Locations Section */
+.add-location-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.add-location-form input {
+  flex: 1;
+  min-width: 150px;
+}
+
+.location-list {
+  list-style: none;
+  min-height: 100px;
+  background: #f8fbfd;
+  border: 2px dashed #d5e3f0;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.add-location {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.add-location input[type="date"], .add-location input[type="time"] {
+  width: 150px;
+}
+
+.add-location input#location-name {
+  flex: 1;
+}
+
+.btn-add {
+  background: #22c55e;
+  color: white;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.muted {
+  color: #6b7280;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.location-item {
+  background: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #e0e7ef;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s;
+}
+
+.location-item:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border-color: #3498db;
+}
+
+.drag-handle {
+  cursor: grab;
+  padding: 8px;
+  background: #ecf0f1;
+  border-radius: 4px;
+  color: #7f8c8d;
+  font-size: 18px;
+  user-select: none;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.location-item.dragging {
+  opacity: 0.5;
+}
+
+.item-content {
+  flex: 1;
+}
+
+.item-name {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 4px;
+}
+
+.item-time {
+  font-size: 13px;
+  color: #7f8c8d;
+}
+
+.item-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+/* Detail Panel */
+.detail-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 450px;
+  height: 100vh;
+  background: white;
+  box-shadow: -3px 0 15px rgba(0, 0, 0, 0.1);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-panel.show {
+  transform: translateX(0);
+}
+
+.detail-panel.hidden {
+  display: none;
+  
+}
+
+.detail-header {
+  padding: 20px;
+  background: #3498db;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail-header h2 {
+  color: white;
+  margin: 0;
+  font-size: 20px;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+}
+
+/* Overrides and small additions */
+.hidden { display: none !important; }
+
+/* Make main title slightly smaller */
+h1 { font-size: 22px; }
+
+/* Border for location name input */
+.add-location input#location-name { border: 1px solid #d5e3f0; padding: 8px 10px; border-radius: 6px; }
+/* Ensure date/time inputs in the add-location row also show borders like other inputs */
+.add-location input[type="date"], .add-location input[type="time"] {
+  border: 1px solid #d5e3f0;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: #fff;
+}
+
+/* Ensure any input in the add-location row shows a visible border */
+.add-location input, .add-location select, .add-location textarea {
+  border: 1px solid #d5e3f0;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: #fff;
+}
+
+/* Rounded corners for time inputs */
+.time-input-wrapper input { border-radius: 6px; }
+
