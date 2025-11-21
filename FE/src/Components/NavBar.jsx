@@ -14,10 +14,11 @@ export default function Navbar() {
       const newUser = localStorage.getItem("username");
       setUsername(newUser || "");
     };
-
+    window.addEventListener("user-logout", handleStorageChange);
     window.addEventListener("storage", handleStorageChange);
 
     return () => {
+      window.removeEventListener("user-logout", handleStorageChange);
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);

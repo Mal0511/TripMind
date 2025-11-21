@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+
 export default function User() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const res = await fetch("http://localhost:1105/api/user", {
-        credentials: "include" 
-      }); 
+          credentials: "include"
+        });
         if (!res.ok) throw new Error("Failed to fetch user");
         const data = await res.json();
         setUser(data);
@@ -32,7 +35,9 @@ export default function User() {
 
       // Xóa thông tin đăng nhập client-side
       localStorage.removeItem("isLoggedIn");
-      
+      localStorage.removeItem("username");
+      localStorage.clear();
+      window.dispatchEvent(new Event("user-logout"));
       // Chuyển về trang home
       navigate("/");
     } catch (err) {
@@ -44,7 +49,21 @@ export default function User() {
   }
 
   if (!user) {
-    return <p className="text-center mt-10 text-red-500">User not found</p>;
+    return (
+      <div className="py-10 text-center">
+      <h1 className="text-3xl font-bold text-red-600">Bạn chưa đăng nhập</h1>
+      <p className="mt-4 text-lg text-gray-600">
+        Vui lòng đăng nhập để xem thông tin tài khoản.
+      </p>
+
+      <button
+        onClick={() => navigate("/login")}
+        className="mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+      >
+        Đăng nhập ngay
+      </button>
+    </div>
+    );
   }
 
   return (
@@ -70,7 +89,10 @@ export default function User() {
           <button className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
             Edit Profile
           </button>
-          <button className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+          >
             Logout
           </button>
         </div>

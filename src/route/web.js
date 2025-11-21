@@ -24,14 +24,11 @@ const { requireAdmin } = require("../middleware/auth");
 let router = express.Router();
 
 let initWebRoutes = (app) => {
-  router.get("/", LoginController.getLoginPage);
-  router.post("/auth/login", LoginController.getLoginController);
-  router.post("/auth/logout", LoginController.getLogoutController);
-  router.get("/main_screen", homeController.getHomePage);
+  //router.get("/main_screen", homeController.getHomePage);
   // Route danh sách người dùng (chỉ admin)
-  router.get("/user-list", requireAdmin, UserController.getUserList);
+  //router.get("/user-list", requireAdmin, UserController.getUserList);
   // API: get user by id (admin only) - dùng khi frontend cần dữ liệu để edit
-  router.get("/user/:id", requireAdmin, UserController.getUserById);
+  //router.get("/user/:id", requireAdmin, UserController.getUserById);
 
 //Nam
   // Test route

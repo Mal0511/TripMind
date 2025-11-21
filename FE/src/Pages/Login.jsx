@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../interface.css"; // giữ nguyên CSS cũ
 
-export default function Login() { 
+export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const [loginMessage, setLoginMessage] = useState(""); // thêm state hiển thị lỗi
   const navigate = useNavigate();
+
+  const regUsernameRef = useRef();
+  const regPasswordRef = useRef();
+  const regEmailRef = useRef();
+  const regFullnameRef = useRef();
+  const regPhoneRef = useRef();
 
   const login = async (e) => {
     e.preventDefault();
@@ -42,15 +48,61 @@ export default function Login() {
   };
 
 
-  const register = (e) => {
+  const register = async (e) => {
     e.preventDefault();
-    const email = e.target.regEmail.value;
-    const phone = e.target.regPhone.value;
-    const fullname = e.target.regFullname.value;
-    const username = e.target.regUsername.value;
-    const password = e.target.regPassword.value;
-    console.log("Register", { email, phone, fullname, username, password });
-    // Gọi API đăng ký ở đây
+
+    const username = regUsernameRef.current.value.trim();
+    const password = regPasswordRef.current.value.trim();
+    const email = regEmailRef.current.value.trim();
+    const fullname = regFullnameRef.current.value.trim();
+    const phone = regPhoneRef.current.value.trim();
+
+
+    let lowerCaseLetter = /[a-z]/g;
+    let upperCaseLetter = /[A-Z]/g;
+    let numbers = /[0-9]/g;
+
+    // Lấy thẻ hiển thị lỗi từ React (nên là state nhưng tạm thời vẫn dùng id)
+    const regMessage = document.getElementById("regMessage");
+
+    // Validate
+    if (!username || !password || !email || !fullname || !phone) {
+      regMessage.innerText = "Please fill in all fields";
+      regMessage.style.color = "red";
+      return;
+    }
+
+    if (password.length < 8) {
+      regMessage.innerText = "Password must be at least 8 characters.";
+      regMessage.style.color = "red";
+      return;
+    }
+    if (!lowerCaseLetter.test(password)) {
+      regMessage.innerText = "Password must contain a lowercase letter.";
+      regMessage.style.color = "red";
+      return;
+    }
+    if (!upperCaseLetter.test(password)) {
+      regMessage.innerText = "Password must contain an uppercase letter.";
+      regMessage.style.color = "red";
+      return;
+    }
+    if (!numbers.test(password)) {
+      regMessage.innerText = "Password must contain a number.";
+      regMessage.style.color = "red";
+      return;
+    }
+
+    // Gọi API BE
+    let response = await fetch("http://localhost:1105/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fullname,  regUsername: username, password, email, phone }),
+    });
+
+    let result = await response.json();
+    regMessage.innerText = result.message;
+    regMessage.style.color = response.ok ? "green" : "red";
   };
 
   const forgotpass = (e) => {
@@ -80,19 +132,21 @@ export default function Login() {
               <input id="LoginPassword" name="LoginPassword" placeholder="Password" type="password" />
               <div id="LoginMessage"></div>
               <button className="btn" type="submit">Login</button>
-              <button className="btn1" onClick={forgotpass}>Forgot Password</button>
+              <button type="button" className="btn1" onClick={forgotpass}>Forgot Password</button>
             </form>
 
-            <form className="form-item sign-up" onSubmit={register}>
-              <h1>Sign up</h1>
-              <input type="email" id="regEmail" placeholder="Email" name="regEmail" />
-              <input type="text" id="regPhone" name="regPhone" placeholder="Phone number" />
-              <input type="text" id="regFullname" name="regFullname" placeholder="Full name" />
-              <input type="text" id="regUsername" name="regUsername" placeholder="User name" />
-              <input type="password" name="regPassword" placeholder="Password" id="regPassword" />
-              <div id="regMessage"></div>
-              <button className="btn" type="submit">Sign up</button>
-            </form>
+            {!isLogin && (
+              <form className="form-item sign-up" onSubmit={register}>
+                <h1>Sign up</h1>
+                <input ref={regEmailRef} name="regEmail" placeholder="Email" />
+                <input ref={regPhoneRef} name="regPhone" placeholder="Phone" />
+                <input ref={regFullnameRef} name="regFullname" placeholder="Full name" />
+                <input ref={regUsernameRef} name="regUsername" placeholder="User name" />
+                <input ref={regPasswordRef} name="regPassword" placeholder="Password" type="password" />
+                <div id="regMessage"></div>
+                <button type="submit" className="btn">Sign up</button>
+              </form>
+            )}
           </div>
         </div>
       </div>

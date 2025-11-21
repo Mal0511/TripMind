@@ -5,13 +5,38 @@ export default function Booking() {
 
   useEffect(() => {
     fetch("http://localhost:1105/api/booking", {
-    credentials: "include" 
+    credentials: "include"
   })
-      .then((res) => res.json())
-      .then((data) => setBookings(data))
-      .catch((err) => console.error("Fetch error:", err));
+    .then(async (res) => {
+      if (!res.ok) {
+        throw new Error("UNAUTHORIZED");
+      }
+      return res.json();
+    })
+    .then((data) => setBookings(data))
+    .catch((err) => {
+      console.error("Fetch error:", err);
+      setBookings(null);
+    });
   }, []);
+if (bookings === null) {
+  return (
+    <div className="py-10 text-center">
+      <h1 className="text-3xl font-bold text-orange-600">Booking Page</h1>
 
+      <p className="mt-4 text-lg text-gray-600">
+        Bạn cần đăng nhập để xem danh sách booking.
+      </p>
+
+      <button
+        onClick={() => window.location.href = "/login"}
+        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+      >
+        Đăng nhập
+      </button>
+    </div>
+  );
+}
   return (
     <div className="py-10 text-center">
       <h1 className="text-3xl font-bold text-red-600">Booking Page</h1>
@@ -61,4 +86,6 @@ export default function Booking() {
       </div>
     </div>
   );
+  
+
 }
