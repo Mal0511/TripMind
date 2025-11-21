@@ -1,4 +1,3 @@
-
 const db = require("../models/index");
 const User = db.User;
 // Hiển thị danh sách người dùng (và tìm kiếm nếu có)
@@ -25,13 +24,15 @@ exports.getUserList = async (req, res) => {
 // Thêm người dùng mới
 exports.addUser = async (req, res) => {
   try {
-    const { username, email, phone, status, userrole, password } = req.body;
+    const { fullName, username, email, phone, status, role, password } =
+      req.body;
     await db.User.create({
+      fullName,
       username,
       email,
       phone,
       status,
-      userrole,
+      role,
       password,
     });
     res.redirect("/user-list");
@@ -46,9 +47,10 @@ exports.updateUser = async (req, res) => {
   try {
     // Hỗ trợ lấy id từ params (PUT/POST /user/:id) hoặc từ body (frontend hiện gửi POST /user/update với {id})
     const id = req.params.id || req.body.id;
-    const { username, email, phone, status, userrole, password } = req.body;
+    const { fullName, username, email, phone, status, role, password } =
+      req.body;
     await db.User.update(
-      { username, email, phone, status, userrole, password },
+      { fullName, username, email, phone, status, role, password },
       { where: { id } }
     );
     res.redirect("/user-list");
@@ -89,12 +91,6 @@ exports.getUserById = async (req, res) => {
     return res.status(500).json({ message: "Lỗi server" });
   }
 };
-
-
-
-
-
-
 
 exports.getUser = async (req, res) => {
   console.log("SESSION:", req.session);
