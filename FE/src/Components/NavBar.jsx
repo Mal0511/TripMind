@@ -52,6 +52,15 @@ export default function Navbar() {
               2
             </span>
           </div>
+               
+
+            {/* Login Button */}
+            <NavLink
+              to="/login"
+              className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700 transition"
+            >
+              Login
+            </NavLink>
 
          
         </div>
