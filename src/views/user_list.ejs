@@ -31,6 +31,17 @@
       <div id="addUserForm" style="display: none">
         <!-- Form thêm/sửa người dùng -->
         <form>
+          <!-- Full Name -->
+          <div class="form-group">
+            <label for="fullName" class="form-label">Full Name</label>
+            <input
+              type="text"
+              id="fullName"
+              placeholder="Nhập họ và tên"
+              required
+              class="form-input"
+            />
+          </div>
           <!-- Username -->
           <div class="form-group">
             <label for="username" class="form-label">Username</label>
@@ -74,8 +85,8 @@
           </div>
           <!-- User Role -->
           <div class="form-group">
-            <label for="userrole" class="form-label">User Role</label>
-            <select id="userrole" class="form-input">
+            <label for="role" class="form-label">Role</label>
+            <select id="role" class="form-input">
               <option value="Staff_support">Staff_support</option>
               <option value="Basic">Basic</option>
               <option value="Premium">Premium</option>
@@ -114,6 +125,7 @@
         <thead>
           <tr>
             <th>ID</th>
+            <th>Full Name</th>
             <th>Username</th>
             <th>Email</th>
             <th>Phone</th>
@@ -127,6 +139,7 @@
           <% if (users && users.length > 0) { users.forEach(user => { %>
           <tr id="user-<%= user.id %>">
             <td><%= user.id %></td>
+            <td><%= user.fullName %></td>
             <td><%= user.username %></td>
             <td><%= user.email %></td>
             <td><%= user.phone %></td>
@@ -135,8 +148,8 @@
             >
               <%= user.status %>
             </td>
-            <td class="userrole-<%= user.userrole.trim().toLowerCase() %>">
-              <%= user.userrole %>
+            <td class="role-<%= user.role.trim().toLowerCase() %>">
+              <%= user.role %>
             </td>
 
             <td>
