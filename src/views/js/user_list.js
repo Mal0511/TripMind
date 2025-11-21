@@ -12,21 +12,23 @@ function showAddUserForm(user = null) {
   document.getElementById("addUserForm").style.display = "block";
 
   if (user) {
+    document.getElementById("fullName").value = user.fullName;
     document.getElementById("username").value = user.username;
     document.getElementById("email").value = user.email;
     document.getElementById("phone").value = user.phone;
     document.getElementById("status").value = user.status;
     document.getElementById("status").parentElement.style.display = "flex";
-    document.getElementById("userrole").value = user.userrole;
+    document.getElementById("role").value = user.role;
     document.getElementById("password").parentElement.style.display = "none";
     editingUserId = user.id;
   } else {
+    document.getElementById("fullName").value = "";
     document.getElementById("username").value = "";
     document.getElementById("email").value = "";
     document.getElementById("phone").value = "";
     document.getElementById("status").value = "Active";
     document.getElementById("status").parentElement.style.display = "none";
-    document.getElementById("userrole").value = "Basic member";
+    document.getElementById("role").value = "Basic";
     document.getElementById("password").parentElement.style.display = "flex";
     editingUserId = null;
   }
@@ -45,24 +47,25 @@ function hideAddUserForm() {
  * - Khi chỉnh sửa: POST /user/update (không gửi password)
  */
 function saveUser() {
+  const fullName = document.getElementById("fullName").value;
   const username = document.getElementById("username").value;
   const email = document.getElementById("email").value;
   const phone = document.getElementById("phone").value;
   const status = document.getElementById("status").value;
-  const userrole = document.getElementById("userrole").value;
+  const role = document.getElementById("role").value;
   const password = editingUserId
     ? null
     : document.getElementById("password").value;
 
-  if (!(username && email && phone && userrole)) {
+  if (!(fullName && username && email && phone && role)) {
     alert("Vui lòng điền đầy đủ thông tin!");
     return;
   }
 
   const url = editingUserId ? "/user/update" : "/user/add";
   const payload = editingUserId
-    ? { id: editingUserId, username, email, phone, status, userrole }
-    : { username, email, phone, status, userrole, password };
+    ? { id: editingUserId, fullName, username, email, phone, status, role }
+    : { fullName, username, email, phone, status, role, password };
 
   fetch(url, {
     method: "POST",
