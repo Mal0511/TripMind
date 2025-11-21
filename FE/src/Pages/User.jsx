@@ -22,7 +22,23 @@ export default function User() {
 
     fetchUser();
   }, []);
+  const handleLogout = async () => {
+    try {
+      // Gọi API logout backend nếu có
+      await fetch("http://localhost:1105/api/logout", {
+        method: "POST",
+        credentials: "include"
+      });
 
+      // Xóa thông tin đăng nhập client-side
+      localStorage.removeItem("isLoggedIn");
+      
+      // Chuyển về trang home
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
   if (loading) {
     return <p className="text-center mt-10 text-gray-500">Loading...</p>;
   }

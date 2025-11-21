@@ -4,7 +4,7 @@
     box-sizing: border-box; 
 }
 
-body{
+.login-body{
     position: absolute;
     left: 0;
     top: 0;
@@ -50,7 +50,7 @@ body{
 }
 
 .container.btn:hover{
-    opacity: 0.7s;
+    opacity: 0.7;
 }
 
 .container .container-forms .container-info .info-item .btn{

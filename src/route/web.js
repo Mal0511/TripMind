@@ -72,11 +72,11 @@ let initWebRoutes = (app) => {
     requireAdmin,
     PartnerController.updatePartnerStatus
   );
-  router.get("/", LoginController.getLoginPage);
     router.post("/auth/login", LoginController.getLoginController);
     router.post("/auth/register", LoginController.getRegisterController);
     router.get("/api/user", UserController.getUser);
     router.get("/api/booking", BookingController.getAllBookings);
+    router.post("/api/logout", LoginController.getLogoutController);
   return app.use("/", router);
 };
 export default initWebRoutes;
