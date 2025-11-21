@@ -12,20 +12,23 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
 
-      User.hasMany(models.Booking, { foreignKey: 'userId' });
+      User.hasMany(models.Booking, { foreignKey: "userId" });
     }
-  };
-  User.init({
-    fullName: DataTypes.STRING,
-    username: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    status: DataTypes.STRING,
-    role: DataTypes.STRING,
-    phone: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'User',
-  });
+  }
+  User.init(
+    {
+      fullName: DataTypes.STRING,
+      username: DataTypes.STRING,
+      email: DataTypes.STRING,
+      password: DataTypes.STRING,
+      status: DataTypes.STRING,
+      role: DataTypes.STRING,
+      phone: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: "User",
+    }
+  );
   return User;
 };
