@@ -1,38 +1,31 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// 1. Import hook để "viết" vào context
 import { useAuth } from "../Context/AuthContext";
 
 export default function Login() {
-  // 2. Tạo state để lưu trữ email và password người dùng nhập
+ 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  // 3. Lấy hàm login từ context
   const { login } = useAuth();
   
-  // 4. Lấy công cụ để điều hướng (chuyển trang)
   const navigate = useNavigate();
 
-  // 5. Hàm xử lý khi người dùng nhấn nút "Sign In"
   const handleSubmit = (e) => {
     e.preventDefault(); // Ngăn trình duyệt tải lại trang
 
-    // --- PHẦN GIẢ LẬP BACK-END ---
-    // Vì chưa có Back-end, chúng ta chỉ cần kiểm tra xem người dùng có nhập gì không
+
     if (email && password) {
       
-      // 6. Tạo dữ liệu người dùng (giả)
       const fakeUserData = {
-        name: email.split('@')[0], // Lấy tên từ phần trước dấu @ của email
+        name: email.split('@')[0],
         email: email,
       };
       
-      // 7. Gọi hàm login() từ Context và truyền dữ liệu vào
       login(fakeUserData);
 
-      // 8. Đăng nhập thành công, điều hướng về trang chủ
+      
       navigate("/");
       
     } else {
@@ -47,7 +40,7 @@ export default function Login() {
           Welcome Back!
         </h2>
         
-        {/* 9. Kết nối form với hàm handleSubmit */}
+       
         <form className="space-y-6" onSubmit={handleSubmit}>
           {/* Email Input */}
           <div>
@@ -83,7 +76,7 @@ export default function Login() {
               required
               className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="••••••••"
-              // 10. Kết nối input với state
+              
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -101,7 +94,7 @@ export default function Login() {
           </button>
         </form>
 
-        {/* Link to Register (Giữ nguyên) */}
+        
         <p className="text-sm text-center text-gray-600">
           Don't have an account?{" "}
           <Link to="/register" className="font-medium text-blue-600 hover:underline">

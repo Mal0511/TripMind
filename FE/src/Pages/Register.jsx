@@ -1,37 +1,26 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// 1. Import hook để "viết" vào context
 import { useAuth } from "../Context/AuthContext";
 
 export default function Register() {
-  // 2. Tạo state cho các ô nhập liệu
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  // 3. Lấy hàm login từ context (để tự động đăng nhập sau khi đăng ký)
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  // 4. Hàm xử lý khi người dùng nhấn "Sign Up"
   const handleSubmit = (e) => {
     e.preventDefault(); // Ngăn trang tải lại
 
-    // --- PHẦN GIẢ LẬP BACK-END ---
-    // Kiểm tra xem người dùng đã nhập đủ thông tin chưa
     if (username && email && password) {
       
-      // 5. Tạo dữ liệu người dùng mới (giả)
       const newUserData = {
         name: username,
         email: email,
       };
-
-      // 6. Gọi hàm login() để tự động đăng nhập cho người dùng mới
       login(newUserData);
-
-      // 7. Đăng ký thành công, điều hướng về trang chủ
       navigate("/");
 
     } else {
@@ -102,7 +91,6 @@ export default function Register() {
               required
               className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="••••••••"
-              // 9. Kết nối input với state
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -120,7 +108,6 @@ export default function Register() {
           </button>
         </form>
 
-        {/* Link to Login (Giữ nguyên) */}
         <p className="text-sm text-center text-gray-600">
           Already have an account?{" "}
           <Link to="/login" className="font-medium text-blue-600 hover:underline">
