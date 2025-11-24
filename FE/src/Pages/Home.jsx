@@ -4,13 +4,16 @@ import { useEffect, useState } from "react";
 const Home = () => {
   const [destinations, setDestinations] = useState([]);
 
-  useEffect(() => { fetch("http://localhost:1105/api/trip") // API backend 
-    .then((res) => { 
-      if (res.status === 401) { 
-        window.location.href = "http://localhost:1105/"; // redirect login 
-      } return res.json(); }) 
-    .then((data) => setDestinations(data.slice(0,3))) 
-    .catch((err) => console.error(err)); 
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/trip`) // API backend
+      .then((res) => {
+        if (res.status === 401) {
+          window.location.href = `${import.meta.env.VITE_API_URL}/`; // redirect login
+        }
+        return res.json();
+      })
+      .then((data) => setDestinations(data.slice(0, 3)))
+      .catch((err) => console.error(err));
   }, []);
 
   return (

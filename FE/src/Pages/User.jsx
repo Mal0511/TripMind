@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 export default function User() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -10,8 +9,8 @@ export default function User() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch("http://localhost:1105/api/user", {
-          credentials: "include"
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user`, {
+          credentials: "include",
         });
         if (!res.ok) throw new Error("Failed to fetch user");
         const data = await res.json();
@@ -28,9 +27,9 @@ export default function User() {
   const handleLogout = async () => {
     try {
       // Gọi API logout backend nếu có
-      await fetch("http://localhost:1105/api/logout", {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/logout`, {
         method: "POST",
-        credentials: "include"
+        credentials: "include",
       });
 
       // Xóa thông tin đăng nhập client-side
@@ -51,24 +50,26 @@ export default function User() {
   if (!user) {
     return (
       <div className="py-10 text-center">
-      <h1 className="text-3xl font-bold text-red-600">Bạn chưa đăng nhập</h1>
-      <p className="mt-4 text-lg text-gray-600">
-        Vui lòng đăng nhập để xem thông tin tài khoản.
-      </p>
+        <h1 className="text-3xl font-bold text-red-600">Bạn chưa đăng nhập</h1>
+        <p className="mt-4 text-lg text-gray-600">
+          Vui lòng đăng nhập để xem thông tin tài khoản.
+        </p>
 
-      <button
-        onClick={() => navigate("/login")}
-        className="mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-      >
-        Đăng nhập ngay
-      </button>
-    </div>
+        <button
+          onClick={() => navigate("/login")}
+          className="mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          Đăng nhập ngay
+        </button>
+      </div>
     );
   }
 
   return (
     <div className="max-w-3xl mx-auto py-10 px-4">
-      <h1 className="text-3xl font-bold text-purple-600 text-center">User Profile</h1>
+      <h1 className="text-3xl font-bold text-purple-600 text-center">
+        User Profile
+      </h1>
 
       <div className="mt-6 bg-white shadow-lg rounded-xl p-6 space-y-4">
         {/* Profile Info */}
@@ -77,7 +78,9 @@ export default function User() {
             {user.fullName ? user.fullName[0] : "U"}
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-gray-800">{user.fullName}</h2>
+            <h2 className="text-xl font-semibold text-gray-800">
+              {user.fullName}
+            </h2>
             <p className="text-gray-600">@{user.userName}</p>
             <p className="text-gray-600">{user.email}</p>
             <p className="text-gray-600">{user.phone}</p>

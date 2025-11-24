@@ -69,7 +69,7 @@
   // Thêm đối tác mới
   let addPartner = async (req, res) => {
     try {
-      const { companyName, email, phone, address, serviceType, description } =
+      const { companyName, email, phone, address, serviceType, description, rating } =
         req.body;
 
       // Kiểm tra trùng lặp tên công ty, email, sdt, địa chỉ
@@ -100,7 +100,8 @@
         address,
         serviceType,
         description,
-        status: "pending",
+        status: "Pending",
+        rating: null,
       });
 
       return res.status(201).json({

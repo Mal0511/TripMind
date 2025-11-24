@@ -24,12 +24,15 @@ export default function Login() {
     }
 
     try {
-      const response = await fetch("http://localhost:1105/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: usernameInput, password }),
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: usernameInput, password }),
+          credentials: "include",
+        }
+      );
 
       const result = await response.json();
 
@@ -37,7 +40,6 @@ export default function Login() {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("username", usernameInput);
         navigate("/"); // quay về Home
-
       } else {
         setLoginMessage(result.message || "Login failed");
       }
@@ -47,7 +49,6 @@ export default function Login() {
     }
   };
 
-
   const register = async (e) => {
     e.preventDefault();
 
@@ -56,7 +57,6 @@ export default function Login() {
     const email = regEmailRef.current.value.trim();
     const fullname = regFullnameRef.current.value.trim();
     const phone = regPhoneRef.current.value.trim();
-
 
     let lowerCaseLetter = /[a-z]/g;
     let upperCaseLetter = /[A-Z]/g;
@@ -94,11 +94,20 @@ export default function Login() {
     }
 
     // Gọi API BE
-    let response = await fetch("http://localhost:1105/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ fullname,  regUsername: username, password, email, phone }),
-    });
+    let response = await fetch(
+      `${import.meta.env.VITE_API_URL}/auth/register`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullname,
+          regUsername: username,
+          password,
+          email,
+          phone,
+        }),
+      }
+    );
 
     let result = await response.json();
     regMessage.innerText = result.message;
@@ -117,22 +126,40 @@ export default function Login() {
           <div className="container-info">
             <div className="info-item">
               <p>Have an account?</p>
-              <button className="btn" onClick={() => setIsLogin(true)}>Log in</button>
+              <button className="btn" onClick={() => setIsLogin(true)}>
+                Log in
+              </button>
             </div>
             <div className="info-item">
               <p>Don't have an account?</p>
-              <button className="btn" onClick={() => setIsLogin(false)}>Sign up</button>
+              <button className="btn" onClick={() => setIsLogin(false)}>
+                Sign up
+              </button>
             </div>
           </div>
 
           <div className="container-form">
             <form className="form-item log-in" onSubmit={login}>
               <h1>Login</h1>
-              <input id="LoginUsername" name="LoginUsername" placeholder="User name" type="text" />
-              <input id="LoginPassword" name="LoginPassword" placeholder="Password" type="password" />
+              <input
+                id="LoginUsername"
+                name="LoginUsername"
+                placeholder="User name"
+                type="text"
+              />
+              <input
+                id="LoginPassword"
+                name="LoginPassword"
+                placeholder="Password"
+                type="password"
+              />
               <div id="LoginMessage"></div>
-              <button className="btn" type="submit">Login</button>
-              <button type="button" className="btn1" onClick={forgotpass}>Forgot Password</button>
+              <button className="btn" type="submit">
+                Login
+              </button>
+              <button type="button" className="btn1" onClick={forgotpass}>
+                Forgot Password
+              </button>
             </form>
 
             {!isLogin && (
@@ -140,11 +167,26 @@ export default function Login() {
                 <h1>Sign up</h1>
                 <input ref={regEmailRef} name="regEmail" placeholder="Email" />
                 <input ref={regPhoneRef} name="regPhone" placeholder="Phone" />
-                <input ref={regFullnameRef} name="regFullname" placeholder="Full name" />
-                <input ref={regUsernameRef} name="regUsername" placeholder="User name" />
-                <input ref={regPasswordRef} name="regPassword" placeholder="Password" type="password" />
+                <input
+                  ref={regFullnameRef}
+                  name="regFullname"
+                  placeholder="Full name"
+                />
+                <input
+                  ref={regUsernameRef}
+                  name="regUsername"
+                  placeholder="User name"
+                />
+                <input
+                  ref={regPasswordRef}
+                  name="regPassword"
+                  placeholder="Password"
+                  type="password"
+                />
                 <div id="regMessage"></div>
-                <button type="submit" className="btn">Sign up</button>
+                <button type="submit" className="btn">
+                  Sign up
+                </button>
               </form>
             )}
           </div>

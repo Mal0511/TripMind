@@ -1,0 +1,4 @@
+/* interface.css - base import for server-rendered pages */
+@import url("/style.css");
+
+/* Additional minimal overrides can be added here if needed */

@@ -47,15 +47,15 @@ function hideAddUserForm() {
  * - Khi chỉnh sửa: POST /user/update (không gửi password)
  */
 function saveUser() {
-  const fullName = document.getElementById("fullName").value;
-  const username = document.getElementById("username").value;
-  const email = document.getElementById("email").value;
-  const phone = document.getElementById("phone").value;
+  const fullName = document.getElementById("fullName").value.trim();
+  const username = document.getElementById("username").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
   const status = document.getElementById("status").value;
   const role = document.getElementById("role").value;
   const password = editingUserId
     ? null
-    : document.getElementById("password").value;
+    : document.getElementById("password").value.trim();
 
   if (!(fullName && username && email && phone && role)) {
     alert("Vui lòng điền đầy đủ thông tin!");

@@ -158,22 +158,22 @@ tr:hover {
   font-weight: bold;
 }
 
-.userrole-staff_support {
+.role-staff_support {
   color: #8a2be2;
   font-weight: bold;
 }
 
-.userrole-basic {
+.role-basic {
   color: #808080;
   font-weight: bold;
 }
 
-.userrole-premium {
+.role-premium {
   color: #ecd44d;
   font-weight: bold;
 }
 
-.userrole-partner {
+.role-partner {
   color: #ff8c00;
   font-weight: bold;
 }

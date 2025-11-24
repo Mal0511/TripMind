@@ -6,32 +6,33 @@ export default function ItineraryPage() {
   const [dayFilter, setDayFilter] = useState("Tất cả");
   const [itineraries, setItineraries] = useState([]);
 
-  
   useEffect(() => {
-  fetch("http://localhost:1105/api/trip")
-    .then(res => res.json())
-    .then(data => {
-      const mapped = data.map(trip => ({
-        image: trip.image,
-        days: trip.days,
-        title: trip.title,
-        location: `${trip.country} – ${trip.city}`,
-        time:
-          trip.start_date && trip.end_date
-            ? `${new Date(trip.start_date).toLocaleDateString()} – ${new Date(trip.end_date).toLocaleDateString()}`
-            : new Date(trip.start_date).toLocaleDateString(),
-        country: trip.country === "Vietnam" ? "Việt Nam" : trip.country,
-        price: trip.price
-      }));
-      setItineraries(mapped);
-    })
-    .catch(err => console.error(err));
-}, []);
-
+    fetch(`${import.meta.env.VITE_API_URL}/api/trip`)
+      .then((res) => res.json())
+      .then((data) => {
+        const mapped = data.map((trip) => ({
+          image: trip.image,
+          days: trip.days,
+          title: trip.title,
+          location: `${trip.country} – ${trip.city}`,
+          time:
+            trip.start_date && trip.end_date
+              ? `${new Date(trip.start_date).toLocaleDateString()} – ${new Date(
+                  trip.end_date
+                ).toLocaleDateString()}`
+              : new Date(trip.start_date).toLocaleDateString(),
+          country: trip.country === "Vietnam" ? "Việt Nam" : trip.country,
+          price: trip.price,
+        }));
+        setItineraries(mapped);
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
   // Filter logic
   const filtered = itineraries.filter((item) => {
-    const matchCountry = countryFilter === "Tất cả" || item.country === countryFilter;
+    const matchCountry =
+      countryFilter === "Tất cả" || item.country === countryFilter;
     const matchDay =
       dayFilter === "Tất cả" ||
       (dayFilter === "1-3" && item.days <= 3) ||
@@ -51,19 +52,21 @@ export default function ItineraryPage() {
       <div className="flex flex-col items-center justify-between gap-4 mt-6 md:flex-row">
         {/* Country pills */}
         <div className="flex space-x-3 text-sm font-medium">
-          {["Tất cả", "Việt Nam", "Malaysia", "Thụy Sĩ", "Nhật Bản"].map((c) => (
-            <button
-              key={c}
-              onClick={() => setCountryFilter(c)}
-              className={`px-4 py-2 rounded-full transition ${
-                countryFilter === c
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-100 hover:bg-blue-100"
-              }`}
-            >
-              {c}
-            </button>
-          ))}
+          {["Tất cả", "Việt Nam", "Malaysia", "Thụy Sĩ", "Nhật Bản"].map(
+            (c) => (
+              <button
+                key={c}
+                onClick={() => setCountryFilter(c)}
+                className={`px-4 py-2 rounded-full transition ${
+                  countryFilter === c
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-100 hover:bg-blue-100"
+                }`}
+              >
+                {c}
+              </button>
+            )
+          )}
         </div>
 
         {/* Dropdown + Day filter */}
@@ -99,7 +102,9 @@ export default function ItineraryPage() {
       </div>
 
       {filtered.length === 0 && (
-        <p className="mt-6 text-center text-gray-500">Không tìm thấy lịch trình nào.</p>
+        <p className="mt-6 text-center text-gray-500">
+          Không tìm thấy lịch trình nào.
+        </p>
       )}
     </div>
   );

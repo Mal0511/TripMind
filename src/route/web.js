@@ -1,4 +1,3 @@
-
 import express from "express";
 import LoginController from "../controllers/LoginController";
 import homeController from "../controllers/homeController";
@@ -16,21 +15,16 @@ const PartnerController = require("../controllers/PartnerController");
 const UserController = require("../controllers/UserController");
 const { requireAdmin } = require("../middleware/auth");
 
-
-
-
-
-
 let router = express.Router();
 
 let initWebRoutes = (app) => {
   //router.get("/main_screen", homeController.getHomePage);
   // Route danh sách người dùng (chỉ admin)
-  //router.get("/user-list", requireAdmin, UserController.getUserList);
+  router.get("/user-list", requireAdmin, UserController.getUserList);
   // API: get user by id (admin only) - dùng khi frontend cần dữ liệu để edit
-  //router.get("/user/:id", requireAdmin, UserController.getUserById);
+  router.get("/user/:id", requireAdmin, UserController.getUserById);
 
-//Nam
+  //Nam
   // Test route
   router.get("/test", (req, res) => {
     res.send("Test route is working!");
@@ -69,13 +63,11 @@ let initWebRoutes = (app) => {
     requireAdmin,
     PartnerController.updatePartnerStatus
   );
-    router.post("/auth/login", LoginController.getLoginController);
-    router.post("/auth/register", LoginController.getRegisterController);
-    router.get("/api/user", UserController.getUser);
-    router.get("/api/booking", BookingController.getAllBookings);
-    router.post("/api/logout", LoginController.getLogoutController);
+  router.post("/auth/login", LoginController.getLoginController);
+  router.post("/auth/register", LoginController.getRegisterController);
+  router.get("/api/user", UserController.getUser);
+  router.get("/api/booking", BookingController.getAllBookings);
+  router.post("/api/logout", LoginController.getLogoutController);
   return app.use("/", router);
 };
 export default initWebRoutes;
-
-
