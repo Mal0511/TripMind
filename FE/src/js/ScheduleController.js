@@ -81,7 +81,10 @@ class ItineraryApp {
     }
     if (this.el.deleteBtnPanel) {
       this._handlers.deleteTripPanel = () => this.deleteTripFromPanel();
-      this.el.deleteBtnPanel.addEventListener("click", this._handlers.deleteTripPanel);
+      this.el.deleteBtnPanel.addEventListener(
+        "click",
+        this._handlers.deleteTripPanel
+      );
     }
     if (this.el.saveEditBtn) {
       this._handlers.saveEdit = () => this.saveEditPanel();
@@ -89,7 +92,10 @@ class ItineraryApp {
     }
     if (this.el.cancelEditBtn) {
       this._handlers.cancelEdit = () => this.cancelEditPanel();
-      this.el.cancelEditBtn.addEventListener("click", this._handlers.cancelEdit);
+      this.el.cancelEditBtn.addEventListener(
+        "click",
+        this._handlers.cancelEdit
+      );
     }
 
     // Nhập hỗ trợ phím cho đầu vào vị trí
@@ -216,12 +222,12 @@ class ItineraryApp {
     if (this.el.endLocation) this.el.endLocation.value = "";
     if (this.el.endDate) this.el.endDate.value = "";
     if (this.el.endTime) this.el.endTime.value = "";
-    if( this.el.locationName) this.el.locationName.value = "";
-    if( this.el.locationDate) this.el.locationDate.value = "";
-    if( this.el.arrivalTime) this.el.arrivalTime.value = "";
-     if(this.el.locationDateEnd) this.el.locationDateEnd.value = "";
-    if( this.el.departureTime) this.el.departureTime.value = "";
-   
+    if (this.el.locationName) this.el.locationName.value = "";
+    if (this.el.locationDate) this.el.locationDate.value = "";
+    if (this.el.arrivalTime) this.el.arrivalTime.value = "";
+    if (this.el.locationDateEnd) this.el.locationDateEnd.value = "";
+    if (this.el.departureTime) this.el.departureTime.value = "";
+
     this.renderLocations();
     if (!silent) this.showMessage("Form đã được làm mới", "success");
     this.updateActionButtons();
@@ -360,118 +366,118 @@ class ItineraryApp {
     const saveBtn = this.el.saveBtn || document.getElementById("save-btn");
     if (saveBtn) saveBtn.disabled = true;
     try {
-    const trip = {
-      name: this.el.tripName && this.el.tripName.value,
-      startLocation: this.el.startLocation && this.el.startLocation.value,
-      startDate: this.el.startDate && this.el.startDate.value,
-      startTime: this.el.startTime && this.el.startTime.value,
-      endLocation: this.el.endLocation && this.el.endLocation.value,
-      endDate: this.el.endDate && this.el.endDate.value,
-      endTime: this.el.endTime && this.el.endTime.value,
-      locations: this.locations,
-    };
+      const trip = {
+        name: this.el.tripName && this.el.tripName.value,
+        startLocation: this.el.startLocation && this.el.startLocation.value,
+        startDate: this.el.startDate && this.el.startDate.value,
+        startTime: this.el.startTime && this.el.startTime.value,
+        endLocation: this.el.endLocation && this.el.endLocation.value,
+        endDate: this.el.endDate && this.el.endDate.value,
+        endTime: this.el.endTime && this.el.endTime.value,
+        locations: this.locations,
+      };
 
-    // xác thực các trường bắt buộc (ngoại trừ danh sách vị trí)
-    const v = this.validateTrip({
-      name: trip.name,
-      start: trip.startLocation,
-      startDate: trip.startDate,
-      startTime: trip.startTime,
-      end: trip.endLocation,
-      endDate: trip.endDate,
-      endTime: trip.endTime,
-    });
-    if (!v.ok) {
-      this.showMessage(v.msg, "error");
-      return;
-    }
-
-    // Validate location dates: ngày phải >= ngày bắt đầu và <= ngày kết thúc
-    for (let i = 0; i < trip.locations.length; i++) {
-      const loc = trip.locations[i];
-      // locations use dateStart/dateEnd keys in this UI
-      if (loc.dateStart) {
-        const startDate = new Date(trip.startDate);
-        const endDate = new Date(trip.endDate);
-        const locStart = new Date(loc.dateStart);
-        const locEnd = loc.dateEnd ? new Date(loc.dateEnd) : locStart;
-        if (isNaN(locStart.getTime()) || isNaN(locEnd.getTime())) {
-          this.showMessage(
-            `Ngày của địa điểm thứ ${i + 1} không hợp lệ`,
-            "error"
-          );
-          return;
-        }
-        if (
-          locStart.getTime() < startDate.getTime() ||
-          locEnd.getTime() > endDate.getTime()
-        ) {
-          this.showMessage(
-            `Ngày của địa điểm thứ ${
-              i + 1
-            } phải nằm trong khoảng từ ngày bắt đầu đến ngày kết thúc của chuyến đi`,
-            "error"
-          );
-          return;
-        }
-      }
-    }
-
-    const existing = JSON.parse(
-      localStorage.getItem("itinerary_trips") || "[]"
-    );
-
-    // kiểm tra tên trùng lặp (không phân biệt chữ hoa chữ thường). Nếu đang cập nhật chuyến đi hiện có, cho phép cùng tên.
-    const lowerName = (trip.name || "").trim().toLowerCase();
-    const nameConflict = existing.find(
-      (t) =>
-        (t.name || "").trim().toLowerCase() === lowerName &&
-        (!this.currentTrip || t.createdAt !== this.currentTrip.createdAt)
-    );
-    if (nameConflict) {
-      this.showMessage(
-        "Tên chuyến đi đã tồn tại. Vui lòng đổi tên khác.",
-        "error"
-      );
-      return;
-    }
-
-    if (this.currentTrip && this.currentTrip.createdAt) {
-      // cập nhật chuyến đi hiện có
-      const idx = existing.findIndex(
-        (t) => t.createdAt === this.currentTrip.createdAt
-      );
-      if (idx !== -1) {
-        trip.createdAt = this.currentTrip.createdAt; // giữ dấu thời gian gốc
-        existing[idx] = trip;
-        localStorage.setItem("itinerary_trips", JSON.stringify(existing));
-        this.currentTrip = trip;
-        // sau khi cập nhật, xóa các trường đầu vào chính (người dùng yêu cầu xóa form khi lưu)
-        this.clearFormFields();
-        this.locations = [];
-        this.renderLocations();
-        this.showMessage("Cập nhật lịch trình thành công", "success");
-        this.renderSavedList();
-        this.updateActionButtons();
+      // xác thực các trường bắt buộc (ngoại trừ danh sách vị trí)
+      const v = this.validateTrip({
+        name: trip.name,
+        start: trip.startLocation,
+        startDate: trip.startDate,
+        startTime: trip.startTime,
+        end: trip.endLocation,
+        endDate: trip.endDate,
+        endTime: trip.endTime,
+      });
+      if (!v.ok) {
+        this.showMessage(v.msg, "error");
         return;
       }
-    }
 
-    // tạo chuyến đi mới
-    trip.createdAt = new Date().toISOString();
-    existing.unshift(trip);
-    localStorage.setItem(
-      "itinerary_trips",
-      JSON.stringify(existing.slice(0, 50))
-    );
-    this.currentTrip = trip;
-    this.showMessage("Lưu lịch trình thành công!", "success");
-    this.renderSavedList();
-    this.updateActionButtons();
-    // xóa các trường đầu vào tạo sau khi lưu
-    this.clearFormFields();
-    this.locations = [];
-    this.renderLocations();
+      // Validate location dates: ngày phải >= ngày bắt đầu và <= ngày kết thúc
+      for (let i = 0; i < trip.locations.length; i++) {
+        const loc = trip.locations[i];
+        // locations use dateStart/dateEnd keys in this UI
+        if (loc.dateStart) {
+          const startDate = new Date(trip.startDate);
+          const endDate = new Date(trip.endDate);
+          const locStart = new Date(loc.dateStart);
+          const locEnd = loc.dateEnd ? new Date(loc.dateEnd) : locStart;
+          if (isNaN(locStart.getTime()) || isNaN(locEnd.getTime())) {
+            this.showMessage(
+              `Ngày của địa điểm thứ ${i + 1} không hợp lệ`,
+              "error"
+            );
+            return;
+          }
+          if (
+            locStart.getTime() < startDate.getTime() ||
+            locEnd.getTime() > endDate.getTime()
+          ) {
+            this.showMessage(
+              `Ngày của địa điểm thứ ${
+                i + 1
+              } phải nằm trong khoảng từ ngày bắt đầu đến ngày kết thúc của chuyến đi`,
+              "error"
+            );
+            return;
+          }
+        }
+      }
+
+      const existing = JSON.parse(
+        localStorage.getItem("itinerary_trips") || "[]"
+      );
+
+      // kiểm tra tên trùng lặp (không phân biệt chữ hoa chữ thường). Nếu đang cập nhật chuyến đi hiện có, cho phép cùng tên.
+      const lowerName = (trip.name || "").trim().toLowerCase();
+      const nameConflict = existing.find(
+        (t) =>
+          (t.name || "").trim().toLowerCase() === lowerName &&
+          (!this.currentTrip || t.createdAt !== this.currentTrip.createdAt)
+      );
+      if (nameConflict) {
+        this.showMessage(
+          "Tên chuyến đi đã tồn tại. Vui lòng đổi tên khác.",
+          "error"
+        );
+        return;
+      }
+
+      if (this.currentTrip && this.currentTrip.createdAt) {
+        // cập nhật chuyến đi hiện có
+        const idx = existing.findIndex(
+          (t) => t.createdAt === this.currentTrip.createdAt
+        );
+        if (idx !== -1) {
+          trip.createdAt = this.currentTrip.createdAt; // giữ dấu thời gian gốc
+          existing[idx] = trip;
+          localStorage.setItem("itinerary_trips", JSON.stringify(existing));
+          this.currentTrip = trip;
+          // sau khi cập nhật, xóa các trường đầu vào chính (người dùng yêu cầu xóa form khi lưu)
+          this.clearFormFields();
+          this.locations = [];
+          this.renderLocations();
+          this.showMessage("Cập nhật lịch trình thành công", "success");
+          this.renderSavedList();
+          this.updateActionButtons();
+          return;
+        }
+      }
+
+      // tạo chuyến đi mới
+      trip.createdAt = new Date().toISOString();
+      existing.unshift(trip);
+      localStorage.setItem(
+        "itinerary_trips",
+        JSON.stringify(existing.slice(0, 50))
+      );
+      this.currentTrip = trip;
+      this.showMessage("Lưu lịch trình thành công!", "success");
+      this.renderSavedList();
+      this.updateActionButtons();
+      // xóa các trường đầu vào tạo sau khi lưu
+      this.clearFormFields();
+      this.locations = [];
+      this.renderLocations();
     } finally {
       if (saveBtn) saveBtn.disabled = false;
       this._saving = false;
@@ -485,7 +491,9 @@ class ItineraryApp {
         const panel = this.el.detailPanel;
         const createdAt = panel && panel.dataset && panel.dataset.createdAt;
         if (createdAt) {
-          const existing = JSON.parse(localStorage.getItem("itinerary_trips") || "[]");
+          const existing = JSON.parse(
+            localStorage.getItem("itinerary_trips") || "[]"
+          );
           const found = existing.find((t) => t.createdAt === createdAt);
           if (found) this.currentTrip = found;
         }
@@ -747,19 +755,38 @@ class ItineraryApp {
         addPanelBtn.addEventListener("click", (e) => {
           e.preventDefault();
           // rebuild locations from current panel inputs to preserve existing values
-          const blocks = Array.from(content.querySelectorAll(".panel-loc-block"));
+          const blocks = Array.from(
+            content.querySelectorAll(".panel-loc-block")
+          );
           const newLocations = blocks.map((block) => {
             const idx = block.dataset.idx;
             return {
-              name: (block.querySelector(`.panel-loc-name[data-idx="${idx}"]`)?.value || "").trim(),
-              dateStart: block.querySelector(`.panel-loc-date-start[data-idx="${idx}"]`)?.value || "",
-              dateEnd: block.querySelector(`.panel-loc-date-end[data-idx="${idx}"]`)?.value || "",
-              arrival: block.querySelector(`.panel-loc-arrival[data-idx="${idx}"]`)?.value || "",
-              departure: block.querySelector(`.panel-loc-departure[data-idx="${idx}"]`)?.value || "",
+              name: (
+                block.querySelector(`.panel-loc-name[data-idx="${idx}"]`)
+                  ?.value || ""
+              ).trim(),
+              dateStart:
+                block.querySelector(`.panel-loc-date-start[data-idx="${idx}"]`)
+                  ?.value || "",
+              dateEnd:
+                block.querySelector(`.panel-loc-date-end[data-idx="${idx}"]`)
+                  ?.value || "",
+              arrival:
+                block.querySelector(`.panel-loc-arrival[data-idx="${idx}"]`)
+                  ?.value || "",
+              departure:
+                block.querySelector(`.panel-loc-departure[data-idx="${idx}"]`)
+                  ?.value || "",
             };
           });
           // Thêm một địa điểm trống mới vào cuối danh sách (fields follow the same keys)
-          newLocations.push({ name: "", dateStart: "", dateEnd: "", arrival: "", departure: "" });
+          newLocations.push({
+            name: "",
+            dateStart: "",
+            dateEnd: "",
+            arrival: "",
+            departure: "",
+          });
           this.locations = JSON.parse(JSON.stringify(newLocations));
           this.renderDetailContent(
             Object.assign({}, this.currentTrip, { locations: this.locations }),
@@ -816,7 +843,8 @@ class ItineraryApp {
     if (this._saving) return;
     this._saving = true;
     // disable save to avoid duplicate clicks
-    const saveBtn = this.el.saveEditBtn || document.getElementById("save-edit-btn");
+    const saveBtn =
+      this.el.saveEditBtn || document.getElementById("save-edit-btn");
     if (saveBtn) saveBtn.disabled = true;
 
     // attempt to recover currentTrip from the panel dataset if it's missing
@@ -825,7 +853,9 @@ class ItineraryApp {
         const panel = this.el.detailPanel;
         const createdAt = panel && panel.dataset && panel.dataset.createdAt;
         if (createdAt) {
-          const existing = JSON.parse(localStorage.getItem("itinerary_trips") || "[]");
+          const existing = JSON.parse(
+            localStorage.getItem("itinerary_trips") || "[]"
+          );
           const found = existing.find((t) => t.createdAt === createdAt);
           if (found) this.currentTrip = found;
         }
@@ -938,7 +968,9 @@ class ItineraryApp {
                 d.getTime() <= a.getTime()
               ) {
                 return this.showMessage(
-                  `Giờ kết thúc của địa điểm thứ ${i + 1} phải lớn hơn giờ bắt đầu`,
+                  `Giờ kết thúc của địa điểm thứ ${
+                    i + 1
+                  } phải lớn hơn giờ bắt đầu`,
                   "error"
                 );
               }
@@ -1008,7 +1040,8 @@ class ItineraryApp {
     panel.classList.remove("show");
     panel.classList.add("hidden");
     try {
-      if (panel && panel.dataset && panel.dataset.createdAt) delete panel.dataset.createdAt;
+      if (panel && panel.dataset && panel.dataset.createdAt)
+        delete panel.dataset.createdAt;
     } catch (e) {}
   }
   // Hiển thị thông báo cho người dùng
@@ -1041,16 +1074,25 @@ class ItineraryApp {
         if (closeBtn && this._handlers.closeDetail)
           closeBtn.removeEventListener("click", this._handlers.closeDetail);
         if (this.el.editBtn && this._handlers.enableEdit)
-          this.el.editBtn.removeEventListener("click", this._handlers.enableEdit);
+          this.el.editBtn.removeEventListener(
+            "click",
+            this._handlers.enableEdit
+          );
         if (this.el.deleteBtn && this._handlers.deleteTrip)
-          this.el.deleteBtn.removeEventListener("click", this._handlers.deleteTrip);
+          this.el.deleteBtn.removeEventListener(
+            "click",
+            this._handlers.deleteTrip
+          );
         if (this.el.deleteBtnPanel && this._handlers.deleteTripPanel)
           this.el.deleteBtnPanel.removeEventListener(
             "click",
             this._handlers.deleteTripPanel
           );
         if (this.el.saveEditBtn && this._handlers.saveEdit)
-          this.el.saveEditBtn.removeEventListener("click", this._handlers.saveEdit);
+          this.el.saveEditBtn.removeEventListener(
+            "click",
+            this._handlers.saveEdit
+          );
         if (this.el.cancelEditBtn && this._handlers.cancelEdit)
           this.el.cancelEditBtn.removeEventListener(
             "click",
@@ -1060,10 +1102,12 @@ class ItineraryApp {
         [this.el.locationName, this.el.locationDate].forEach((el) => {
           if (!el) return;
           const keyId = `keypress_${el.id}`;
-          if (this._handlers[keyId]) el.removeEventListener("keypress", this._handlers[keyId]);
+          if (this._handlers[keyId])
+            el.removeEventListener("keypress", this._handlers[keyId]);
         });
       }
-      if (this._escHandler) document.removeEventListener("keydown", this._escHandler);
+      if (this._escHandler)
+        document.removeEventListener("keydown", this._escHandler);
     } catch (e) {}
   }
 }
