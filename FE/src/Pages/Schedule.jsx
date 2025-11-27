@@ -4,7 +4,6 @@ import { initItineraryApp } from "../js/ScheduleController.js";
 
 export default function Schedule() {
   useEffect(() => {
-    // Khởi tạo controller khi trang mount (FE local copy)
     try {
       initItineraryApp();
     } catch (e) {
@@ -30,8 +29,7 @@ export default function Schedule() {
         </aside>
 
         <main className="main-content">
-          <h1>TẠO LỊCH TRÌNH DU LỊCH</h1>
-
+          <h1 className="page-title">TẠO LỊCH TRÌNH DU LỊCH</h1>
           <section className="trip-info">
             <h2>Thông tin chuyến đi</h2>
             <div className="form-group">
@@ -62,33 +60,11 @@ export default function Schedule() {
                 </label>
                 <input id="start-date" type="date" />
               </div>
-              <div className="time-input-wrapper">
+              <div className="form-group">
                 <label>
                   Giờ bắt đầu <span className="required">*</span>
                 </label>
                 <input id="start-time" type="time" />
-                <div id="start-time-buttons" className="time-buttons hidden">
-                  <button
-                    className="btn btn-success btn-small"
-                    onClick={() =>
-                      window.app &&
-                      window.app.confirmTime &&
-                      window.app.confirmTime("start-time")
-                    }
-                  >
-                    OK
-                  </button>
-                  <button
-                    className="btn btn-secondary btn-small"
-                    onClick={() =>
-                      window.app &&
-                      window.app.cancelTime &&
-                      window.app.cancelTime("start-time")
-                    }
-                  >
-                    Hủy
-                  </button>
-                </div>
               </div>
             </div>
             <div className="datetime-row">
@@ -104,8 +80,10 @@ export default function Schedule() {
                 </label>
                 <input id="end-date" type="date" required />
               </div>
-              <div className="time-input-wrapper">
-                <label>Giờ kết thúc</label>
+              <div className="form-group">
+                <label>
+                  Giờ kết thúc <span className="required">*</span>
+                </label>
                 <input id="end-time" type="time" />
               </div>
             </div>
@@ -113,7 +91,7 @@ export default function Schedule() {
             <h2>Danh sách địa điểm</h2>
             <div className="form-group">
               <label htmlFor="location-name">
-                Tên địa điểm <span className="required">*</span>
+                Tên địa điểm <span className="required"></span>
               </label>
               <input
                 id="location-name"
@@ -135,26 +113,26 @@ export default function Schedule() {
               >
                 <div className="form-group">
                   <label>
-                    Ngày bắt đầu <span className="required">*</span>
+                    Ngày bắt đầu <span className="required"></span>
                   </label>
                   <input id="location-date" type="date" />
                 </div>
 
                 <div className="form-group">
                   <label>
-                    Giờ bắt đầu <span className="required">*</span>
+                    Giờ bắt đầu <span className="required"></span>
                   </label>
                   <input id="arrival-time" type="time" />
                 </div>
                 <div className="form-group">
                   <label>
-                    Ngày kết thúc <span className="required">*</span>
+                    Ngày kết thúc <span className="required"></span>
                   </label>
                   <input id="location-date-end" type="date" />
                 </div>
                 <div className="form-group">
                   <label>
-                    Giờ kết thúc <span className="required">*</span>
+                    Giờ kết thúc <span className="required"></span>
                   </label>
                   <input id="departure-time" type="time" />
                 </div>
@@ -181,22 +159,20 @@ export default function Schedule() {
               Ghi chú: "Ngày dự kiến", "Giờ bắt đầu", "Giờ kết thúc" cho từng
               điểm
             </p>
-            <div className="form-actions">
+            <div className="form-actions" style={{ marginTop: "20px" }}>
               <button id="new-btn" className="btn btn-primary">
                 Tạo mới
               </button>
               <button id="save-btn" className="btn btn-success">
                 Lưu lịch trình
               </button>
-              <button id="delete-btn" className="btn btn-danger hidden">
-                Xóa
-              </button>
             </div>
           </section>
           <div id="messages" className="messages" aria-live="polite"></div>
         </main>
       </div>
-      {/* Detail panel shown when clicking a saved trip */}
+
+      {/* Detail panel */}
       <div id="detail-panel" className="detail-panel hidden">
         <div className="detail-header">
           <h2 id="detail-title">Chi tiết lịch trình</h2>
@@ -208,9 +184,7 @@ export default function Schedule() {
           id="detail-content"
           className="detail-content"
           style={{ padding: "16px", overflowY: "auto" }}
-        >
-          {/* Content rendered by controller: read-only view or edit form */}
-        </div>
+        ></div>
         <div
           className="detail-actions"
           style={{

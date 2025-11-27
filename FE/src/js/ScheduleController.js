@@ -30,6 +30,7 @@ class ItineraryApp {
       arrivalTime: document.getElementById("arrival-time"),
       departureTime: document.getElementById("departure-time"),
       locationDate: document.getElementById("location-date"),
+      locationDateEnd: document.getElementById("location-date-end"),
       locationList: document.getElementById("location-list"),
       messages: document.getElementById("messages"),
       savedList: document.getElementById("saved-list"),
@@ -47,41 +48,65 @@ class ItineraryApp {
   attachEventListeners() {
     if (this._listenersAttached) return;
     this._listenersAttached = true;
+    // prepare handler storage so we can remove listeners on destroy
+    this._handlers = this._handlers || {};
+
     const addBtn = document.getElementById("add-location-btn");
-    if (addBtn) addBtn.addEventListener("click", () => this.addLocation());
+    if (addBtn) {
+      this._handlers.addLocation = () => this.addLocation();
+      addBtn.addEventListener("click", this._handlers.addLocation);
+    }
     const newBtn = document.getElementById("new-btn");
-    if (newBtn) newBtn.addEventListener("click", () => this.newTrip());
+    if (newBtn) {
+      this._handlers.newTrip = () => this.newTrip();
+      newBtn.addEventListener("click", this._handlers.newTrip);
+    }
     const saveBtn = document.getElementById("save-btn");
-    if (saveBtn) saveBtn.addEventListener("click", () => this.saveTrip());
+    if (saveBtn) {
+      this._handlers.saveTrip = () => this.saveTrip();
+      saveBtn.addEventListener("click", this._handlers.saveTrip);
+    }
     const closeBtn = document.getElementById("close-detail");
-    if (closeBtn) closeBtn.addEventListener("click", () => this.closeDetail());
-    if (this.el.editBtn)
-      this.el.editBtn.addEventListener("click", () => this.enableEditPanel());
-    if (this.el.deleteBtn)
-      this.el.deleteBtn.addEventListener("click", () => this.deleteTrip());
-    if (this.el.deleteBtnPanel)
-      this.el.deleteBtnPanel.addEventListener("click", () =>
-        this.deleteTripFromPanel()
-      );
-    if (this.el.saveEditBtn)
-      this.el.saveEditBtn.addEventListener("click", () => this.saveEditPanel());
-    if (this.el.cancelEditBtn)
-      this.el.cancelEditBtn.addEventListener("click", () =>
-        this.cancelEditPanel()
-      );
+    if (closeBtn) {
+      this._handlers.closeDetail = () => this.closeDetail();
+      closeBtn.addEventListener("click", this._handlers.closeDetail);
+    }
+    if (this.el.editBtn) {
+      this._handlers.enableEdit = () => this.enableEditPanel();
+      this.el.editBtn.addEventListener("click", this._handlers.enableEdit);
+    }
+    if (this.el.deleteBtn) {
+      this._handlers.deleteTrip = () => this.deleteTrip();
+      this.el.deleteBtn.addEventListener("click", this._handlers.deleteTrip);
+    }
+    if (this.el.deleteBtnPanel) {
+      this._handlers.deleteTripPanel = () => this.deleteTripFromPanel();
+      this.el.deleteBtnPanel.addEventListener("click", this._handlers.deleteTripPanel);
+    }
+    if (this.el.saveEditBtn) {
+      this._handlers.saveEdit = () => this.saveEditPanel();
+      this.el.saveEditBtn.addEventListener("click", this._handlers.saveEdit);
+    }
+    if (this.el.cancelEditBtn) {
+      this._handlers.cancelEdit = () => this.cancelEditPanel();
+      this.el.cancelEditBtn.addEventListener("click", this._handlers.cancelEdit);
+    }
 
     // Nhập hỗ trợ phím cho đầu vào vị trí
     [this.el.locationName, this.el.locationDate].forEach((el) => {
       if (!el) return;
-      el.addEventListener("keypress", (e) => {
+      const keyHandler = (e) => {
         if (e.key === "Enter") this.addLocation();
-      });
+      };
+      this._handlers[`keypress_${el.id}`] = keyHandler;
+      el.addEventListener("keypress", keyHandler);
     });
 
     // Hỗ trợ đóng panel bằng phím Escape
-    document.addEventListener("keydown", (e) => {
+    this._escHandler = (e) => {
       if (e.key === "Escape") this.closeDetail();
-    });
+    };
+    document.addEventListener("keydown", this._escHandler);
   }
   // Tải các chuyến đi đã lưu từ localStorage
   loadSavedTrips() {
@@ -128,20 +153,23 @@ class ItineraryApp {
       );
     const arrival = this.el.arrivalTime && this.el.arrivalTime.value;
     const departure = this.el.departureTime && this.el.departureTime.value;
-    // nếu cả hai thời gian được cung cấp cho vị trí, đảm bảo giờ đến < giờ đi
+    // nếu cả hai thời gian được cung cấp cho vị trí, chỉ so sánh giờ khi
+    // ngày bắt đầu và ngày kết thúc của địa điểm bằng nhau
     if (arrival && departure) {
       try {
-        const a = new Date((date || "") + "T" + arrival);
-        const d = new Date((date || "") + "T" + departure);
-        if (
-          !isNaN(a.getTime()) &&
-          !isNaN(d.getTime()) &&
-          d.getTime() <= a.getTime()
-        ) {
-          return this.showMessage(
-            "Giờ kết thúc của điểm phải lớn hơn giờ bắt đầu",
-            "error"
-          );
+        if (date && dateEnd && date === dateEnd) {
+          const a = new Date((date || "") + "T" + arrival);
+          const d = new Date((dateEnd || "") + "T" + departure);
+          if (
+            !isNaN(a.getTime()) &&
+            !isNaN(d.getTime()) &&
+            d.getTime() <= a.getTime()
+          ) {
+            return this.showMessage(
+              "Giờ kết thúc của điểm phải lớn hơn giờ bắt đầu",
+              "error"
+            );
+          }
         }
       } catch (e) {}
     }
@@ -178,7 +206,7 @@ class ItineraryApp {
   }
 
   // Xóa form để tạo chuyến đi mới
-  newTrip() {
+  newTrip(silent = false) {
     this.currentTrip = null;
     this.locations = [];
     if (this.el.tripName) this.el.tripName.value = "";
@@ -188,8 +216,14 @@ class ItineraryApp {
     if (this.el.endLocation) this.el.endLocation.value = "";
     if (this.el.endDate) this.el.endDate.value = "";
     if (this.el.endTime) this.el.endTime.value = "";
+    if( this.el.locationName) this.el.locationName.value = "";
+    if( this.el.locationDate) this.el.locationDate.value = "";
+    if( this.el.arrivalTime) this.el.arrivalTime.value = "";
+     if(this.el.locationDateEnd) this.el.locationDateEnd.value = "";
+    if( this.el.departureTime) this.el.departureTime.value = "";
+   
     this.renderLocations();
-    this.showMessage("Form đã được làm mới", "success");
+    if (!silent) this.showMessage("Form đã được làm mới", "success");
     this.updateActionButtons();
   }
 
@@ -202,6 +236,12 @@ class ItineraryApp {
     if (this.el.endLocation) this.el.endLocation.value = "";
     if (this.el.endDate) this.el.endDate.value = "";
     if (this.el.endTime) this.el.endTime.value = "";
+    // also clear the add-location inputs
+    if (this.el.locationName) this.el.locationName.value = "";
+    if (this.el.locationDate) this.el.locationDate.value = "";
+    if (this.el.locationDateEnd) this.el.locationDateEnd.value = "";
+    if (this.el.arrivalTime) this.el.arrivalTime.value = "";
+    if (this.el.departureTime) this.el.departureTime.value = "";
     this.locations = [];
     this.renderLocations();
     this.editingLocationIndex = -1;
@@ -297,7 +337,7 @@ class ItineraryApp {
     if (idx < 0 || idx >= this.locations.length) return;
     const loc = this.locations[idx];
     if (this.el.locationName) this.el.locationName.value = loc.name || "";
-    if (this.el.locationDate) this.el.locationDate.value = loc.date || "";
+    if (this.el.locationDate) this.el.locationDate.value = loc.dateStart || "";
     if (this.el.arrivalTime) this.el.arrivalTime.value = loc.arrival || "";
     if (this.el.departureTime)
       this.el.departureTime.value = loc.departure || "";
@@ -315,6 +355,11 @@ class ItineraryApp {
   }
   // Lưu chuyến đi hiện tại vào localStorage
   saveTrip() {
+    if (this._saving) return;
+    this._saving = true;
+    const saveBtn = this.el.saveBtn || document.getElementById("save-btn");
+    if (saveBtn) saveBtn.disabled = true;
+    try {
     const trip = {
       name: this.el.tripName && this.el.tripName.value,
       startLocation: this.el.startLocation && this.el.startLocation.value,
@@ -344,11 +389,13 @@ class ItineraryApp {
     // Validate location dates: ngày phải >= ngày bắt đầu và <= ngày kết thúc
     for (let i = 0; i < trip.locations.length; i++) {
       const loc = trip.locations[i];
-      if (loc.date) {
+      // locations use dateStart/dateEnd keys in this UI
+      if (loc.dateStart) {
         const startDate = new Date(trip.startDate);
         const endDate = new Date(trip.endDate);
-        const locDate = new Date(loc.date);
-        if (isNaN(locDate.getTime())) {
+        const locStart = new Date(loc.dateStart);
+        const locEnd = loc.dateEnd ? new Date(loc.dateEnd) : locStart;
+        if (isNaN(locStart.getTime()) || isNaN(locEnd.getTime())) {
           this.showMessage(
             `Ngày của địa điểm thứ ${i + 1} không hợp lệ`,
             "error"
@@ -356,8 +403,8 @@ class ItineraryApp {
           return;
         }
         if (
-          locDate.getTime() < startDate.getTime() ||
-          locDate.getTime() > endDate.getTime()
+          locStart.getTime() < startDate.getTime() ||
+          locEnd.getTime() > endDate.getTime()
         ) {
           this.showMessage(
             `Ngày của địa điểm thứ ${
@@ -425,9 +472,25 @@ class ItineraryApp {
     this.clearFormFields();
     this.locations = [];
     this.renderLocations();
+    } finally {
+      if (saveBtn) saveBtn.disabled = false;
+      this._saving = false;
+    }
   }
   // Xóa chuyến đi hiện tại
   deleteTrip() {
+    if (!this.currentTrip || !this.currentTrip.createdAt) {
+      // try to recover from panel dataset
+      try {
+        const panel = this.el.detailPanel;
+        const createdAt = panel && panel.dataset && panel.dataset.createdAt;
+        if (createdAt) {
+          const existing = JSON.parse(localStorage.getItem("itinerary_trips") || "[]");
+          const found = existing.find((t) => t.createdAt === createdAt);
+          if (found) this.currentTrip = found;
+        }
+      } catch (e) {}
+    }
     if (!this.currentTrip || !this.currentTrip.createdAt) {
       this.showMessage("Vui lòng chọn lịch để xóa", "error");
       return;
@@ -446,7 +509,7 @@ class ItineraryApp {
     );
     localStorage.setItem("itinerary_trips", JSON.stringify(filtered));
     this.showMessage("Xóa lịch trình thành công", "success");
-    this.newTrip();
+    this.newTrip(true);
     this.renderSavedList();
     this.updateActionButtons();
   }
@@ -519,6 +582,10 @@ class ItineraryApp {
     if (!panel || !content) return;
     panel.classList.remove("hidden");
     panel.classList.add("show");
+    // store createdAt on panel so we can recover the trip later if needed
+    try {
+      if (t && t.createdAt) panel.dataset.createdAt = t.createdAt;
+    } catch (e) {}
     // hiển thị nội dung chỉ đọc
     this.renderDetailContent(t, false);
     // đảm bảo các nút hành động trên bảng điều khiển là chính xác
@@ -679,27 +746,20 @@ class ItineraryApp {
       if (addPanelBtn) {
         addPanelBtn.addEventListener("click", (e) => {
           e.preventDefault();
-          // Lấy lại danh sách địa điểm hiện tại từ panel DOM để tránh mất dữ liệu khi thêm mới
-          const locNames = Array.from(
-            content.querySelectorAll(".panel-loc-name")
-          );
-          const newLocations = locNames.map((el) => {
-            const idx = el.dataset.idx;
+          // rebuild locations from current panel inputs to preserve existing values
+          const blocks = Array.from(content.querySelectorAll(".panel-loc-block"));
+          const newLocations = blocks.map((block) => {
+            const idx = block.dataset.idx;
             return {
-              name: (el.value || "").trim(),
-              date:
-                content.querySelector(`.panel-loc-date[data-idx="${idx}"]`)
-                  ?.value || "",
-              arrival:
-                content.querySelector(`.panel-loc-arrival[data-idx="${idx}"]`)
-                  ?.value || "",
-              departure:
-                content.querySelector(`.panel-loc-departure[data-idx="${idx}"]`)
-                  ?.value || "",
+              name: (block.querySelector(`.panel-loc-name[data-idx="${idx}"]`)?.value || "").trim(),
+              dateStart: block.querySelector(`.panel-loc-date-start[data-idx="${idx}"]`)?.value || "",
+              dateEnd: block.querySelector(`.panel-loc-date-end[data-idx="${idx}"]`)?.value || "",
+              arrival: block.querySelector(`.panel-loc-arrival[data-idx="${idx}"]`)?.value || "",
+              departure: block.querySelector(`.panel-loc-departure[data-idx="${idx}"]`)?.value || "",
             };
           });
-          // Thêm một địa điểm trống mới vào cuối danh sách
-          newLocations.push({ name: "", date: "", arrival: "", departure: "" });
+          // Thêm một địa điểm trống mới vào cuối danh sách (fields follow the same keys)
+          newLocations.push({ name: "", dateStart: "", dateEnd: "", arrival: "", departure: "" });
           this.locations = JSON.parse(JSON.stringify(newLocations));
           this.renderDetailContent(
             Object.assign({}, this.currentTrip, { locations: this.locations }),
@@ -753,10 +813,32 @@ class ItineraryApp {
   }
   // Lưu các chỉnh sửa từ bảng điều khiển chi tiết
   saveEditPanel() {
+    if (this._saving) return;
+    this._saving = true;
+    // disable save to avoid duplicate clicks
+    const saveBtn = this.el.saveEditBtn || document.getElementById("save-edit-btn");
+    if (saveBtn) saveBtn.disabled = true;
+
+    // attempt to recover currentTrip from the panel dataset if it's missing
     if (!this.currentTrip) {
+      try {
+        const panel = this.el.detailPanel;
+        const createdAt = panel && panel.dataset && panel.dataset.createdAt;
+        if (createdAt) {
+          const existing = JSON.parse(localStorage.getItem("itinerary_trips") || "[]");
+          const found = existing.find((t) => t.createdAt === createdAt);
+          if (found) this.currentTrip = found;
+        }
+      } catch (e) {}
+    }
+
+    if (!this.currentTrip) {
+      if (saveBtn) saveBtn.disabled = false;
+      this._saving = false;
       this.showMessage("Không có lịch để lưu", "error");
       return;
     }
+
     const content = this.el.detailContent;
     try {
       const updated = Object.assign({}, this.currentTrip);
@@ -800,6 +882,8 @@ class ItineraryApp {
 
       // luôn đồng bộ lại this.locations với dữ liệu mới nhất từ panel
       this.locations = JSON.parse(JSON.stringify(updated.locations || []));
+      // Đảm bảo currentTrip cũng được cập nhật locations mới nhất
+      this.currentTrip = updated;
 
       // xác thực địa điểm: yêu cầu tên, ngày bắt đầu/kết thúc hợp lệ, arrival < departure nếu cả hai đều có
       for (let i = 0; i < updated.locations.length; i++) {
@@ -844,19 +928,20 @@ class ItineraryApp {
         }
         if (loc.arrival && loc.departure) {
           try {
-            const a = new Date((loc.dateStart || "") + "T" + loc.arrival);
-            const d = new Date((loc.dateEnd || "") + "T" + loc.departure);
-            if (
-              !isNaN(a.getTime()) &&
-              !isNaN(d.getTime()) &&
-              d.getTime() <= a.getTime()
-            ) {
-              return this.showMessage(
-                `Giờ kết thúc của địa điểm thứ ${
-                  i + 1
-                } phải lớn hơn giờ bắt đầu`,
-                "error"
-              );
+            // only compare times when the location's start and end dates are equal
+            if (loc.dateStart && loc.dateEnd && loc.dateStart === loc.dateEnd) {
+              const a = new Date((loc.dateStart || "") + "T" + loc.arrival);
+              const d = new Date((loc.dateEnd || "") + "T" + loc.departure);
+              if (
+                !isNaN(a.getTime()) &&
+                !isNaN(d.getTime()) &&
+                d.getTime() <= a.getTime()
+              ) {
+                return this.showMessage(
+                  `Giờ kết thúc của địa điểm thứ ${i + 1} phải lớn hơn giờ bắt đầu`,
+                  "error"
+                );
+              }
             }
           } catch (e) {}
         }
@@ -881,10 +966,11 @@ class ItineraryApp {
       const existing = JSON.parse(
         localStorage.getItem("itinerary_trips") || "[]"
       );
-      const idx = existing.findIndex(
-        (t) => t.createdAt === this.currentTrip.createdAt
-      );
+      const originalCreatedAt = this.currentTrip.createdAt;
+      const idx = existing.findIndex((t) => t.createdAt === originalCreatedAt);
       if (idx !== -1) {
+        // ensure createdAt preserved
+        updated.createdAt = originalCreatedAt || updated.createdAt;
         existing[idx] = updated;
         localStorage.setItem("itinerary_trips", JSON.stringify(existing));
         this.currentTrip = updated;
@@ -904,6 +990,9 @@ class ItineraryApp {
     } catch (e) {
       console.error("saveEditPanel error", e);
       this.showMessage("Lưu chỉnh sửa thất bại", "error");
+    } finally {
+      if (saveBtn) saveBtn.disabled = false;
+      this._saving = false;
     }
   }
   // Xóa chuyến đi từ bảng điều khiển chi tiết và đóng bảng điều khiển
@@ -918,6 +1007,9 @@ class ItineraryApp {
     if (!panel) return;
     panel.classList.remove("show");
     panel.classList.add("hidden");
+    try {
+      if (panel && panel.dataset && panel.dataset.createdAt) delete panel.dataset.createdAt;
+    } catch (e) {}
   }
   // Hiển thị thông báo cho người dùng
   showMessage(text, type = "success") {
@@ -934,7 +1026,44 @@ class ItineraryApp {
   destroy() {
     // dọn dẹp nếu cần
     try {
-      document.removeEventListener("keydown", this._escHandler);
+      // remove stored handlers
+      if (this._handlers) {
+        const addBtn = document.getElementById("add-location-btn");
+        if (addBtn && this._handlers.addLocation)
+          addBtn.removeEventListener("click", this._handlers.addLocation);
+        const newBtn = document.getElementById("new-btn");
+        if (newBtn && this._handlers.newTrip)
+          newBtn.removeEventListener("click", this._handlers.newTrip);
+        const saveBtn = document.getElementById("save-btn");
+        if (saveBtn && this._handlers.saveTrip)
+          saveBtn.removeEventListener("click", this._handlers.saveTrip);
+        const closeBtn = document.getElementById("close-detail");
+        if (closeBtn && this._handlers.closeDetail)
+          closeBtn.removeEventListener("click", this._handlers.closeDetail);
+        if (this.el.editBtn && this._handlers.enableEdit)
+          this.el.editBtn.removeEventListener("click", this._handlers.enableEdit);
+        if (this.el.deleteBtn && this._handlers.deleteTrip)
+          this.el.deleteBtn.removeEventListener("click", this._handlers.deleteTrip);
+        if (this.el.deleteBtnPanel && this._handlers.deleteTripPanel)
+          this.el.deleteBtnPanel.removeEventListener(
+            "click",
+            this._handlers.deleteTripPanel
+          );
+        if (this.el.saveEditBtn && this._handlers.saveEdit)
+          this.el.saveEditBtn.removeEventListener("click", this._handlers.saveEdit);
+        if (this.el.cancelEditBtn && this._handlers.cancelEdit)
+          this.el.cancelEditBtn.removeEventListener(
+            "click",
+            this._handlers.cancelEdit
+          );
+        // keypress handlers
+        [this.el.locationName, this.el.locationDate].forEach((el) => {
+          if (!el) return;
+          const keyId = `keypress_${el.id}`;
+          if (this._handlers[keyId]) el.removeEventListener("keypress", this._handlers[keyId]);
+        });
+      }
+      if (this._escHandler) document.removeEventListener("keydown", this._escHandler);
     } catch (e) {}
   }
 }
