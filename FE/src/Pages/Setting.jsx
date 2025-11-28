@@ -1,4 +1,3 @@
-// Settings.jsx
 import React, { useEffect, useState, useRef } from "react";
 
 /* ---------------- translations ---------------- */
