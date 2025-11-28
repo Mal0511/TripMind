@@ -1,7 +1,7 @@
 
 import express from "express";
 import LoginController from "../controllers/LoginController";
-const LoginController = require("../controllers/LoginController");
+// const LoginController = require("../controllers/LoginController"); xóa
 // User-related handlers are implemented in LoginController in this repo
 const {
   deleteUserController,
@@ -12,6 +12,7 @@ const {
   getUserById,
 } = LoginController;
 const PartnerController = require("../controllers/PartnerController");
+const homeControler = require("../controllers/HomeController");
 const UserController = require("../controllers/UserController");
 const { requireAdmin } = require("../middleware/auth");
 
@@ -23,9 +24,9 @@ const { requireAdmin } = require("../middleware/auth");
 let router = express.Router();
 
 let initWebRoutes = (app) => {
-  router.get("/", LoginController.getLoginPage);
-  router.post("/auth/login", LoginController.getLoginController);
-  router.post("/auth/logout", LoginController.getLogoutController);
+  router.get("/", LoginController.getLoginPage); 
+  router.post("/auth/login", LoginController.getLoginController); 
+  router.post("/auth/logout", LoginController.getLogoutController); 
   router.get("/main_screen", homeControler.getHomePage);
   // Route danh sách người dùng (chỉ admin)
   router.get("/user-list", requireAdmin, UserController.getUserList);
@@ -72,13 +73,12 @@ let initWebRoutes = (app) => {
     PartnerController.updatePartnerStatus
   );
 
-  return app.use("/", router);
+  return app.use("/", router); 
 };
 module.exports = initWebRoutes;
 
-    router.get("/", LoginController.getLoginPage);
-    router.post("/auth/login", LoginController.getLoginController);
-    router.post("/auth/register", LoginController.getRegisterController);
-    return app.use("/", router);
-
+    // router.get("/", LoginController.getLoginPage); xóa 
+    // router.post("/auth/login", LoginController.getLoginController); xóa
+    // router.post("/auth/register", LoginController.getRegisterController); xóa
+    // return app.use("/", router); xóa
 module.exports = initWebRoutes;

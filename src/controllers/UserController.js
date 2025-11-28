@@ -90,11 +90,11 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-import db from '../models/index.js';
+// import db from '../models/index.js'; xóa
 
-const User = db.User;
+// const User = db.User; xóa 
 
-let getUser = async (req, res) => {
+/* let getUser = async (req, res) => {
     console.log("SESSION:", req.session);
    try {
         if (!req.session.userId) {
@@ -117,5 +117,27 @@ let getUser = async (req, res) => {
 
 export default {
     getUser : getUser,
-}
+} */ // xóa
+
+exports.getUser = async (req, res) => {
+    console.log("SESSION:", req.session);
+    try {
+        if (!req.session.userId) {
+            return res.status(401).json({ message: 'Not logged in' });
+        }
+
+        const user = await db.User.findByPk(req.session.userId, {
+            attributes: ['id', 'fullName', 'userName', 'email', 'phone']
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 
