@@ -48,7 +48,7 @@ class ItineraryApp {
   attachEventListeners() {
     if (this._listenersAttached) return;
     this._listenersAttached = true;
-    // prepare handler storage so we can remove listeners on destroy
+    // lưu trữ trình xử lý để có thể gỡ bỏ sau này nếu cần
     this._handlers = this._handlers || {};
 
     const addBtn = document.getElementById("add-location-btn");
@@ -842,12 +842,12 @@ class ItineraryApp {
   saveEditPanel() {
     if (this._saving) return;
     this._saving = true;
-    // disable save to avoid duplicate clicks
+    // vô hiệu hóa nút lưu để tránh nhấp nhiều lần
     const saveBtn =
       this.el.saveEditBtn || document.getElementById("save-edit-btn");
     if (saveBtn) saveBtn.disabled = true;
 
-    // attempt to recover currentTrip from the panel dataset if it's missing
+    // cố gắng khôi phục currentTrip từ dataset của panel nếu nó bị mất
     if (!this.currentTrip) {
       try {
         const panel = this.el.detailPanel;
@@ -958,7 +958,7 @@ class ItineraryApp {
         }
         if (loc.arrival && loc.departure) {
           try {
-            // only compare times when the location's start and end dates are equal
+            // chỉ kiểm tra nếu cả hai đều có và ngày bắt đầu và kết thúc giống nhau
             if (loc.dateStart && loc.dateEnd && loc.dateStart === loc.dateEnd) {
               const a = new Date((loc.dateStart || "") + "T" + loc.arrival);
               const d = new Date((loc.dateEnd || "") + "T" + loc.departure);
