@@ -81,7 +81,7 @@ const translations = {
     remove: "Xóa",
     autofillPreview: "Xem trước tự động điền khi đặt tour",
     noTravelers: "Chưa có danh sách người đi",
-    assistantTitle: "Trợ lý AI",
+    assistantTitle: "TripMind AI",
     assistantIntro: "Hỏi trợ lý bất cứ điều gì về đặt tour, hủy, đổi lịch, hoàn tiền...",
     assistantPlaceholder: "Gõ câu hỏi của bạn... (ví dụ: hoàn tiền, hủy tour, đổi lịch)",
     assistantSend: "Gửi",
